@@ -720,3 +720,22 @@ textarea::placeholder {
         font-size: 14px;
     }
 }
+
+/* ==================== HISTORY STYLES QUERY ==================== */
+.history-container {
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.history-item {
+    background:#f5f5f5;
+    padding:10px 15px;
+    border-radius:8px;
+    word-wrap:break-word;
+}
+.history-item strong {
+    display:block;
+    margin-bottom:5px;
+}
+
