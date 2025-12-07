@@ -94,13 +94,14 @@
     </header>
 
     <!-- Main content: the AI question form -->
-    <main style="padding:100px 12px;">
+    <main style="padding:100px 12px; display:flex; gap:20px; max-width:1200px; margin:auto;">
+    <!-- Kiri: form + jawaban -->
+    <div style="flex:2;">
         <div class="chat-header">
             <h1>👩‍🔬 Tanya AI — Alchemy Assistant</h1>
             <p>Tanyakan apapun tentang skincare dan bahan aktif kepada AI kami</p>
         </div>
         <div class="ai-container">
-
             <form id="aiForm">
                 <label>Tulis Pertanyaan Kamu:</label>
                 <textarea id="question" placeholder="Contoh: Jelaskan apa itu robotika cerdas..."></textarea>
@@ -109,7 +110,15 @@
 
             <div id="response-area"></div>
         </div>
-    </main>
+    </div>
+
+    <!-- Kanan: history sidebar -->
+    <aside style="flex:1; position:sticky; top:100px; height:calc(100vh - 100px); overflow-y:auto; border-left:1px solid #ddd; padding-left:15px;">
+        <h2>Riwayat Pertanyaan</h2>
+        <div id="history-area" class="history-container"></div>
+    </aside>
+</main>
+
 
     <!-- FOOTER -->
     <footer class="site-footer">
@@ -220,6 +229,53 @@
                 }
             });
         });
+        document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("aiForm");
+    const textarea = document.getElementById("question");
+    const responseArea = document.getElementById("response-area");
+    const historyArea = document.getElementById("history-area");
+
+    // Array untuk menyimpan history
+    const history = [];
+
+    // Fungsi render history
+    function renderHistory() {
+        historyArea.innerHTML = history
+            .map(item => `
+                <div class="history-item">
+                    <strong>Pertanyaan:</strong> ${item.question}<br>
+                    <strong>Jawaban:</strong> ${item.answer}
+                </div>
+            `)
+            .join('');
+    }
+
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const prompt = textarea.value.trim();
+        if (prompt === "") {
+            responseArea.innerHTML = `<div class="error-box"><strong>Error:</strong> Pertanyaan tidak boleh kosong.</div>`;
+            return;
+        }
+        responseArea.innerHTML = `<div class="result-box"><strong>Sedang memproses...</strong></div>`;
+        try {
+            const data = await queryToFlowise(prompt);
+            const answer = data.text || data.answer || JSON.stringify(data);
+            responseArea.innerHTML = `<div class="result-box"><strong>Jawaban:</strong><br><br>${answer}</div>`;
+
+            // Simpan ke history
+            history.unshift({ question: prompt, answer }); // unshift supaya terbaru di atas
+            renderHistory();
+
+            // Kosongkan textarea
+            textarea.value = '';
+        } catch (err) {
+            responseArea.innerHTML = `<div class="error-box"><strong>Error:</strong> Gagal memproses AI.</div>`;
+            console.error(err);
+        }
+    });
+});
+
     </script>
 
 </body>
