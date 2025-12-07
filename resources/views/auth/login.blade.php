@@ -17,12 +17,12 @@
         <button class="toast-close">&times;</button>
     </div>
 
-    <div class="logo">✨ Alchemy</div>
+    <div class="logo">AIchemy</div>
 
     <div class="login-container">
         <div class="left-section">
             <div class="welcome-text">
-                <h1>Welcome Back<br>to <span class="alchemy-text">Alchemy!</span></h1>
+                <h1>Welcome Back<br>to <span class="alchemy-text">AIchemy!</span></h1>
             </div>
             @php
                 $preferred = public_path('images/login.png');
@@ -71,6 +71,9 @@
 
             <form action="{{ route('login.action') }}" method="POST" id="loginForm" novalidate>
                 @csrf
+                @if(request()->has('intended'))
+                    <input type="hidden" name="intended" value="{{ request('intended') }}">
+                @endif
                 <div class="form-group">
                     <div class="form-group">
                         <label for="login">Email atau Username</label>
@@ -144,7 +147,7 @@
             </form>
 
             <div class="divider">
-                <span>or</span>
+                <span>atau</span>
             </div>
 
             <div class="google-login">

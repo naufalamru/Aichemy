@@ -31,6 +31,7 @@ body {
     color: var(--dark);
     background: var(--cream) !important;
     overflow-x: hidden;
+    z-index: 1;
 }
 
 .container {
@@ -46,11 +47,9 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
-    background: var(--cream);
-
-    overflow: hidden;
+    z-index: 0;
 }
+
 
 /* ==================== NAVBAR ==================== */
 .navbar {
@@ -89,7 +88,8 @@ body {
 }
 
 .brand .logo:hover {
-    transform: scale(1.05);
+    transform: scale(1.05) translateY(-4px);
+    filter: drop-shadow(0 8px 12px rgba(72, 166, 167, 0.2));
 }
 
 .nav-links {
@@ -126,21 +126,30 @@ body {
 
 .auth {
     display: flex;
-    gap: 15px;
+    gap: 10px;
     align-items: center;
 }
 
 .btn-login {
-    color: var(--primary);
+    color: #388485;
     text-decoration: none;
-    font-weight: 600;
-    padding: 10px 20px;
-    border-radius: 8px;
+    font-weight: 650;
+    padding: 9px 33px;
+    border-radius: 25px;
     transition: all 0.3s ease;
+    background: transparent;
+    border: 2px solid #48A6A7;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-login:hover {
-    background: rgba(139, 92, 246, 0.1);
+    background: linear-gradient(135deg, #48A6A7 0%, #025c89 100%);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(72, 166, 167, 0.35);
+    border-color: transparent;
 }
 
 .btn-signup {
@@ -177,6 +186,41 @@ body {
     transition: all 0.3s ease;
 }
 
+/* ==================== MOBILE MENU ==================== */
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    background: white;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    box-shadow: var(--shadow-md);
+    z-index: 999;
+}
+
+.mobile-menu.active {
+    display: flex;
+}
+
+.mobile-nav-link {
+    color: var(--dark);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.mobile-nav-link:hover {
+    color: var(--primary);
+}
+
+.mobile-btn {
+    width: 100%;
+    text-align: center;
+}
+
 /* ==================== HERO SECTION ==================== */
 .hero {
     min-height: 100vh;
@@ -211,6 +255,7 @@ body {
     line-height: 1.2;
     margin-bottom: 20px;
     animation: slideUp 0.8s ease;
+    color: #264f73;
 }
 
 .gradient-text {
@@ -253,6 +298,7 @@ body {
     background: var(--gradient-1);
     color: white;
     box-shadow: 0 4px 20px rgba(3, 140, 119, 0.3);
+    white-space: nowrap;
 }
 
 .cta-primary:hover {
@@ -261,14 +307,16 @@ body {
 }
 
 .cta-secondary {
-    background: white;
-    color: var(--primary);
-    border: 2px solid var(--primary);
+    background: var(--cream);
+    color: #337678;
+    border: 3px solid #337678;
 }
 
 .cta-secondary:hover {
-    background: var(--primary);
-    color: white;
+    background: var(--gradient-1);
+    color: var(--cream);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(5, 138, 121, 0.4);
 }
 
 .hero-stats {
@@ -279,6 +327,7 @@ body {
 
 .stat-mini {
     text-align: center;
+    background: var(--cream)!important;
 }
 
 .stat-number {
@@ -532,7 +581,7 @@ body {
 .stat-card {
     text-align: center;
     padding: 40px 20px;
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(236, 72, 153, 0.05) 100%);
+    background: var(--cream);
     border-radius: 20px;
     transition: all 0.4s ease;
 }
@@ -611,7 +660,7 @@ body {
 /* ==================== WHY ALCHEMY ==================== */
 .why-section {
     padding: 100px 0;
-    background: linear-gradient(135deg, rgba(2, 156, 125, 0.03) 0%, rgba(236, 72, 153, 0.03) 100%);
+
 }
 
 .why-cards {
@@ -765,11 +814,28 @@ body {
 /* ==================== CTA BLOCK ==================== */
 .cta-block {
     padding: 80px 0;
-    background: var(--gradient-1);
+    background: var(--cream);
+}
+
+.cta-block::before {
+    content: '';
+    position: absolute;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 8s ease-in-out infinite;
+}
+
+.cta-block::after {
+    content: '';
+    position: absolute;
+    bottom: -50%;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 10s ease-in-out infinite reverse;
 }
 
 .cta-inner {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--gradient-1);
     backdrop-filter: blur(10px);
     border-radius: 30px;
     padding: 60px;
@@ -779,21 +845,25 @@ body {
     gap: 40px;
 }
 
+.cta-action {
+    min-width: fit-content;
+    max-width: 600px;
+}
 .cta-content h3 {
     font-size: 36px;
-    color: white;
+    color: var(--cream);
     margin-bottom: 15px;
 }
 
 .cta-content p {
     font-size: 18px;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--cream);
 }
 
 .cta-large {
-    background: white;
-    color: var(--primary);
-    padding: 18px 40px;
+    background: var(--cream);
+    color: var(--gradient-1);
+    padding: 18px 20px;
     font-size: 18px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
 }
@@ -803,10 +873,72 @@ body {
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
 }
 
+/* ==================== CTA BLOCK BOTTOM ==================== */
+.cta-block-b {
+    padding: 80px 0;
+    background: var(--cream);
+}
+
+.cta-block-b::before {
+    content: '';
+    position: absolute;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 8s ease-in-out infinite;
+}
+
+.cta-block-b::after {
+    content: '';
+    position: absolute;
+    bottom: -50%;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 10s ease-in-out infinite reverse;
+}
+
+.cta-inner-b {
+    background: var(--gradient-1);
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    padding: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+}
+
+.cta-action-b {
+    min-width: fit-content;
+    max-width: 600px;
+}
+.cta-content-b h3 {
+    font-size: 36px;
+    color: var(--cream);
+    margin-bottom: 15px;
+}
+
+.cta-content-b p {
+    font-size: 18px;
+    color: var(--cream);
+}
+
+.cta-large-b {
+    background: var(--cream);
+    color: var(--gradient-1);
+    padding: 18px 20px;
+    font-size: 18px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.cta-large-b:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
 /* ==================== FOOTER ==================== */
 .site-footer {
-    background: linear-gradient(135deg, #1F2937 0%, #111827 100%);
-    color: white;
+    background: var(--gradient-1);
+    color: var(--cream);
     padding: 60px 0 0;
 }
 
@@ -819,14 +951,14 @@ body {
 }
 
 .footer-left .logo {
-    font-family: 'Cooper Black', cursive;
     font-size: 32px;
     margin-bottom: 20px;
     display: block;
+    color: var(--cream);
 }
 
 .footer-left p {
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--cream);
     line-height: 1.8;
     margin-bottom: 20px;
 }
@@ -869,24 +1001,25 @@ body {
 }
 
 .footer-menu a {
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--cream);
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .footer-menu a:hover {
     color: white;
+    font-weight: 500;
 }
 
 .footer-contact p {
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--cream);
     margin-bottom: 10px;
 }
 
 .copyright {
     text-align: center;
     padding: 30px 0;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--cream);
 }
 
 /* ==================== BACK TO TOP ==================== */
@@ -1072,5 +1205,300 @@ body {
     .cta-inner {
         flex-direction: column;
         text-align: center;
+    }
+}
+
+/* ==================== COMPARISON SECTION ==================== */
+.comparison-section {
+    padding: 100px 0;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, rgba(16, 185, 129, 0.03) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.comparison-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 8s ease-in-out infinite;
+}
+
+.comparison-section::after {
+    content: '';
+    position: absolute;
+    bottom: -50%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 10s ease-in-out infinite reverse;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+    position: relative;
+    z-index: 1;
+}
+
+.comparison-card {
+    background: white;
+    padding: 50px 40px;
+    border-radius: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.comparison-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--gradient-1);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+}
+
+.comparison-card:hover::before {
+    transform: scaleX(1);
+}
+
+.comparison-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+}
+
+.chatbot-card::before {
+    background: var(--gradient-1);
+}
+
+.tanya-card::before {
+    background: var(--gradient-1);
+}
+
+.card-icon-large {
+    font-size: 64px;
+    margin-bottom: 25px;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+.card-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--dark);
+    margin-left: 160px;
+}
+
+.card-description {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--gray);
+    margin-bottom: 30px;
+}
+
+.card-features {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 35px;
+    padding: 25px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    color: var(--dark);
+    font-weight: 500;
+}
+
+.feature-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.comparison-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 16px 30px;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* SHINE effect similar to login button */
+.comparison-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.6s ease;
+    z-index: 0;
+    pointer-events: none;
+}
+.comparison-btn:hover::after {
+    left: 120%;
+}
+
+.comparison-btn span,
+.comparison-btn svg {
+    position: relative;
+    z-index: 1;
+}
+
+.comparison-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.comparison-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.comparison-btn span,
+.comparison-btn svg {
+    position: relative;
+    z-index: 1;
+}
+
+.btn-chatbot {
+    background: var(--gradient-1);
+    color: white;
+    box-shadow: 0 8px 25px rgba(108, 223, 221, 0.3);
+}
+
+.btn-chatbot:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(108, 223, 221, 0.3);
+}
+
+.btn-tanya {
+    background: var(--gradient-1);
+    color: white;
+    box-shadow: 0 8px 25px rgba(108, 223, 221, 0.3);
+}
+
+/* Normalize hover behavior for both comparison buttons to match Sign Up */
+.btn-tanya:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(108, 223, 221, 0.33);
+}
+
+.comparison-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    font-size: 24px;
+    font-weight: 700;
+    background: var(--gradient-1);
+    color: white;
+    position: relative;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.comparison-divider::before,
+.comparison-divider::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: inherit;
+    opacity: 0.3;
+    animation: ripple 2s ease-out infinite;
+}
+
+.comparison-divider::after {
+    animation-delay: 1s;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* ==================== CUSTOM ADJUSTMENTS FOR COMPARISON CARDS ==================== */
+/* Reduce top spacing inside cards and make the center "VS" divider hidden */
+
+.comparison-card {
+    /* less padding so content sits higher */
+    padding: 28px 24px;
+}
+
+.card-icon-large {
+    /* smaller icon and less space under it */
+    font-size: 44px;
+    margin-bottom: 10px;
+    animation: none; /* optional: stop bounce to avoid extra perceived spacing */
+}
+
+.card-title {
+    margin-bottom: 12px;
+}
+
+.card-description {
+    margin-bottom: 18px;
+}
+
+.card-features {
+    margin-bottom: 20px;
+    padding: 16px 0;
+}
+
+.comparison-divider {
+    display: none !important; /* hide the VS circle */
+}
+
+/* Small screens: keep responsive two-column -> single column behavior */
+@media (max-width: 900px) {
+    .comparison-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
     }
 }

@@ -33,21 +33,21 @@
                         <path d="M12 2v20M2 12h20M6 6l12 12M18 6L6 18"/>
                     </svg>
                 </div>
-                <h1 class="brand-title">Alchemy</h1>
-                <p class="brand-subtitle">Transform your ideas into reality</p>
+                <h1 class="brand-title">AIchemy</h1>
+                <p class="brand-subtitle">Get personalized skincare advice instantly</p>
 
                 <div class="features">
                     <div class="feature-item">
                         <div class="feature-icon">✓</div>
-                        <span>Powerful tools at your fingertips</span>
+                        <span>Ask anything about skincare</span>
                     </div>
                     <div class="feature-item">
                         <div class="feature-icon">✓</div>
-                        <span>Join thousands of creators</span>
+                        <span>Discover routines that work for you</span>
                     </div>
                     <div class="feature-item">
                         <div class="feature-icon">✓</div>
-                        <span>Start creating in minutes</span>
+                        <span>Expert insights in seconds</span>
                     </div>
                 </div>
             </div>
@@ -58,7 +58,7 @@
             <div class="form-container">
                 <div class="form-header">
                     <h2>Create Your Account</h2>
-                    <p>Join Alchemy and start your journey</p>
+                    <p>Ask, learn, and improve your skin in minutes</p>
                 </div>
 
                 <form id="signupForm" method="POST" action="{{ route('register.action') }}" novalidate>

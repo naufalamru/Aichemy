@@ -9,42 +9,45 @@ use App\Http\Controllers\querysainsController;
 use App\Http\Controllers\ChatController;
 
 // ============================================
-// PUBLIC ROUTES (bisa diakses siapa saja)
+// PUBLIC ROUTES
 // ============================================
 Route::get('/', [HomeController::class, 'indexPublic'])->name('index');
 
 // ============================================
-// GUEST ROUTES (hanya bisa diakses kalau belum login)
+// GUEST ROUTES
 // ============================================
 Route::middleware('guest')->group(function () {
-    // Register
+
     Route::get('/register', [RegisterController::class, 'showRegister'])->name('register');
     Route::post('/register', [RegisterController::class, 'register'])->name('register.action');
 
-    // Login
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.action');
 
-    // Google OAuth
     Route::get('/auth/google/redirect', [GoogleController::class, 'redirect'])->name('google.redirect');
     Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
 });
 
 // ============================================
-// PROTECTED ROUTES (harus login dulu)
+// PROTECTED ROUTES (harus login)
 // ============================================
 Route::middleware('auth')->group(function () {
-    // Home/Dashboard (setelah login)
+
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-    Route::get('/home/chat-ai', [ChatController::class, 'chat'])->name('chat');
 
+    // PAGE CHAT AI
+    Route::get('/chatbot', function () {
+        return view('home');
+    })->name('chatbot');
 
+    // ENDPOINT CHATBOT (dipanggil frontend)
+    Route::post('/chatbot/ask', [ChatController::class, 'ask'])->name('chat.ask');
 
-Route::get('/querysains', function () {
-    return view('querysains');
-});
-
-Route::post('/querysains/ask', [querysainsController::class, 'ask']);
+    // Query Sains
+    Route::get('/tanya-ai', function () {
+        return view('querysains');
+    })->name('tanya-ai');
+    Route::post('/querysains/ask', [querysainsController::class, 'ask']);
 
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

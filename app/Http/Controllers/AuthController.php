@@ -27,6 +27,15 @@ class AuthController extends Controller
 
     if (Auth::attempt($credentials)) {
         $request->session()->regenerate();
+
+        // Cek apakah ada intended destination dari query parameter atau POST
+        $intended = $request->query('intended') ?: $request->input('intended');
+        if ($intended === 'chatbot') {
+            return redirect()->route('chatbot');
+        } elseif ($intended === 'tanya-ai') {
+            return redirect()->route('tanya-ai');
+        }
+
         return redirect()->route('home');
     }
 

@@ -8,7 +8,12 @@ use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {
-    public function chat(Request $request)
+    public function chat()
+    {
+        return view('home');
+    }
+
+    public function ask(Request $request)
     {
         $question = $request->input('question');
 
@@ -19,20 +24,18 @@ class ChatController extends Controller
         }
 
         try {
-            // Endpoint Flowise Cloud YANG BENAR
             $endpoint = 'https://cloud.flowiseai.com/api/v1/prediction/24e550f9-bf74-47e3-a582-f246cc1aa866';
 
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer h9G36lxYVJ5MUo-xcmZ26IniYS1euEDUD1LMi-cTUVs',
                 'Content-Type' => 'application/json'
             ])
-            ->timeout(60)
-            ->connectTimeout(10)
+            ->timeout(180)
+            ->connectTimeout(30)
             ->post($endpoint, [
                 "question" => $question
             ]);
 
-            // Jika Flowise mengembalikan error HTTP
             if (!$response->successful()) {
                 return response()->json([
                     'error' => 'Flowise returned error',
@@ -41,7 +44,6 @@ class ChatController extends Controller
                 ], $response->status());
             }
 
-            // Auto detect format output dari Flowise
             $data = $response->json();
 
             $answer = $data['text']

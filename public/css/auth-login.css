@@ -9,7 +9,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #f2efe9;
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -42,17 +42,16 @@ body::before {
    LOGO
    ======================================== */
 .logo {
-    font-family: 'Cooper Black';
     position: absolute;
-    top: 30px;
-    left: 40px;
-    font-size: 32px;
-    font-weight: bold;
+    left: 30px;
+    top: 10px;
+    font-size: 2.4rem;
+    color: #fff;
+    font-weight: 700;
     font-style: italic;
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-    z-index: 100;
-    letter-spacing: 1px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 60;
+    pointer-events: none;
 }
 
 /* ========================================
@@ -207,7 +206,7 @@ body::before {
 .left-section {
     flex: 1;
     padding: 60px 40px;
-    background: linear-gradient(135deg, #70b9be 0%, #5a9ea3 100%);
+    background: linear-gradient(135deg, #a7d6db 0%, #48A6A7 50%, #1c75a1 100%);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -292,7 +291,7 @@ body::before {
 .right-section {
     flex: 1;
     padding: 50px 45px;
-    background: white;
+    background: #f2efe9;
     animation: fadeInRight 0.8s ease-out;
 }
 
@@ -309,9 +308,10 @@ body::before {
 
 .login-header h2 {
     font-size: 32px;
-    color: #1f2937;
+    color: #247f80;
     margin-bottom: 30px;
     font-weight: 700;
+    padding-left: 135px;
 }
 
 /* ========================================
@@ -398,7 +398,7 @@ body::before {
 
 .input-wrapper input:focus + .input-icon,
 .input-wrapper:focus-within .input-icon {
-    stroke: #667eea;
+    stroke: #48A6A7;
 }
 
 .input-wrapper input {
@@ -413,7 +413,7 @@ body::before {
 
 .input-wrapper input:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #48A6A7;
     background: white;
     box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
 }
@@ -481,7 +481,7 @@ body::before {
 .login-btn {
     width: 100%;
     padding: 14px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #5fcfd1 0%, #136b97 100%);
     color: white;
     border: none;
     border-radius: 10px;
@@ -555,7 +555,7 @@ body::before {
     align-items: center;
     text-align: center;
     margin: 24px 0;
-    color: #9ca3af;
+    color: #878f9e;
     font-size: 14px;
 }
 
@@ -563,7 +563,7 @@ body::before {
 .divider::after {
     content: '';
     flex: 1;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid #c5ccd9;
 }
 
 .divider span {
@@ -592,7 +592,7 @@ body::before {
 
 .google-btn:hover {
     background: #f9fafb;
-    border-color: #d1d5db;
+    border-color: #48A6A7;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
@@ -608,19 +608,19 @@ body::before {
 .register-link {
     text-align: center;
     margin-top: 24px;
-    color: #6b7280;
+    color: black;
     font-size: 14px;
 }
 
 .register-link a {
-    color: #667eea;
+    color: #48A6A7;
     text-decoration: none;
     font-weight: 600;
     transition: color 0.2s;
 }
 
 .register-link a:hover {
-    color: #764ba2;
+    color: #025c89;
     text-decoration: underline;
 }
 

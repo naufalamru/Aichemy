@@ -20,14 +20,19 @@
     <header class="navbar" id="navbar">
         <div class="nav-inner container">
             <div class="brand">
-                <a href="/" class="logo">✨ Alchemy</a>
+                <a href="#home" class="logo">✨ Alchemy</a>
             </div>
 
             <nav class="nav-links" id="navLinks">
                 <a href="#home" class="nav-link">Home</a>
-                <a href="#how" class="nav-link">How it Works</a>
                 <a href="#about" class="nav-link">Tentang Kami</a>
-                <a href="#team" class="nav-link">Team</a>
+                @auth
+                    <a href="{{ route('chatbot') }}" class="nav-link">Chatbot</a>
+                    <a href="{{ route('tanya-ai') }}" class="nav-link">Tanya AI</a>
+                @else
+                    <a href="{{ route('login') }}?intended=chatbot" class="nav-link">Chatbot</a>
+                    <a href="{{ route('login') }}?intended=tanya-ai" class="nav-link">Tanya AI</a>
+                @endauth
             </nav>
 
             <div class="auth">
@@ -69,7 +74,7 @@
 
                 <!-- Stats Mini -->
                 <div class="hero-stats">
-                    <div class="stat-mini">
+                    <div class="stat-mini" style="background: #f2efe9!important;">
                         <div class="stat-number">3000+</div>
                         <div class="stat-label">Pengguna</div>
                     </div>
@@ -152,6 +157,106 @@
                     </div>
                     <p class="step-content">Dapatkan rekomendasi skincare berbasis sains yang cocok untukmu</p>
                     <div class="step-progress"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CHATBOT VS TANYA AI -->
+    <section class="comparison-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">🤖 Choose Your Mode</span>
+                <h2 class="section-title">Chatbot vs Tanya AI</h2>
+                <p class="section-subtitle">Pilih mode yang sesuai dengan kebutuhanmu</p>
+            </div>
+
+            <div class="comparison-grid">
+                <!-- CHATBOT CARD -->
+                <div class="comparison-card chatbot-card">
+
+                    <h3 class="card-title">🤖 Chatbot</h3>
+                    <p class="card-description">
+                        Mode percakapan interaktif yang memungkinkan kamu mengajukan pertanyaan berkelanjutan
+                        serta memperdalam topik secara bertahap. Cocok untuk eksplorasi dan diskusi mendalam.
+                    </p>
+
+                    <div class="card-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">💬</span>
+                            <span>Percakapan berkelanjutan</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🔄</span>
+                            <span>Konteks terjaga</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🎯</span>
+                            <span>Follow-up questions</span>
+                        </div>
+                    </div>
+
+                    @auth
+                        <a href="{{ route('chatbot') }}" class="comparison-btn btn-chatbot">
+                            <span>Mulai Chat</span>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}?intended=chatbot" class="comparison-btn btn-chatbot">
+                            <span>Mulai Chat</span>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    @endauth
+                </div>
+
+                <!-- DIVIDER -->
+                <div class="comparison-divider">
+                    <span>VS</span>
+                </div>
+
+                <!-- TANYA AI CARD -->
+                <div class="comparison-card tanya-card">
+
+                    <h3 class="card-title">🧠 Tanya AI</h3>
+                    <p class="card-description">
+                        Mode analisis satu kali tanya yang memberikan respons komprehensif, terstruktur, dan informatif
+                        tanpa percakapan lanjutan. Ideal untuk mendapatkan jawaban lengkap dengan cepat.
+                    </p>
+
+                    <div class="card-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">⚡</span>
+                            <span>Respons instan</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📊</span>
+                            <span>Analisis mendalam</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📝</span>
+                            <span>Jawaban terstruktur</span>
+                        </div>
+                    </div>
+
+                    @auth
+                        <a href="{{ route('tanya-ai') }}" class="comparison-btn btn-tanya">
+                            <span>Tanya Sekarang</span>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}?intended=tanya-ai" class="comparison-btn btn-tanya">
+                            <span>Tanya Sekarang</span>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    @endauth
                 </div>
             </div>
         </div>
@@ -340,7 +445,7 @@
                 <div class="cta-action">
                     <a href="#" class="cta cta-large">
                         <span>🧠 Coba Sekarang!</span>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <svg width="30" height="24" viewBox="0 0 20 24" fill="none">
                             <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </a>

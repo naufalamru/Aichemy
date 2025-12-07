@@ -1,3 +1,18 @@
+ :root {
+    --primary: #051360;
+    --secondary: #EC4899;
+    --accent: #3B82F6;
+    --dark: #1F2937;
+    --light: #F9FAFB;
+    --white: #FFFFFF;
+    --gray: #6B7280;
+    --cream: #f2efe9;
+    --gradient-1: linear-gradient(135deg, #48A6A7 0%, #025c89 100%);
+    --gradient-2: linear-gradient(135deg, #48a9c6 0%, #48A6A7 100%);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
  * {
             margin: 0;
             padding: 0;
@@ -259,7 +274,7 @@
 
         /* FOOTER */
         .footer {
-            background: white;
+            background: var(--gradient-1);
             border-top: 1px solid #e2e8f0;
             padding: 48px 32px 32px;
             margin-top: auto;
@@ -273,15 +288,15 @@
             gap: 48px;
         }
 
-        .footer-section h3 {
+        .footer-left .logo {
             font-size: 16px;
             font-weight: 600;
-            color: #1e293b;
+            color: var(--cream) !important;
             margin-bottom: 16px;
         }
 
         .footer-about {
-            color: #64748b;
+            color: var(--light);
             font-size: 14px;
             line-height: 1.8;
         }
@@ -295,7 +310,7 @@
         }
 
         .footer-links a {
-            color: #64748b;
+            color: var(--light);
             text-decoration: none;
             font-size: 14px;
             transition: color 0.3s ease;
