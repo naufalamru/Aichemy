@@ -10,13 +10,13 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #f2efe9;
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
     position: relative;
-    overflow-x: hidden;
+    overflow: hidden; /* Mencegah scroll */
 }
 
 /* Background Animation */
@@ -42,16 +42,35 @@ body::before {
    LOGO
    ======================================== */
 .logo {
-    position: absolute;
+    position: fixed;
     left: 30px;
-    top: 10px;
-    font-size: 2.4rem;
-    color: #fff;
-    font-weight: 700;
-    font-style: italic;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    z-index: 60;
-    pointer-events: none;
+    top: 20px;
+    z-index: 1000;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.logo-img {
+    width: 130px;
+    height: 130px;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15));
+}
+
+.logo:hover .logo-img {
+    animation: float 1s ease-in-out infinite;
+    filter: drop-shadow(0 8px 16px rgba(36, 127, 128, 0.3));
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 /* ========================================
@@ -183,6 +202,7 @@ body::before {
     display: flex;
     max-width: 1000px;
     width: 100%;
+    max-height: calc(100vh - 40px); /* Membatasi tinggi maksimal */
     overflow: hidden;
     animation: slideUp 0.6s ease-out;
     position: relative;
@@ -205,7 +225,7 @@ body::before {
    ======================================== */
 .left-section {
     flex: 1;
-    padding: 60px 40px;
+    padding: 40px 30px;
     background: linear-gradient(135deg, #a7d6db 0%, #48A6A7 50%, #1c75a1 100%);
     display: flex;
     flex-direction: column;
@@ -239,13 +259,13 @@ body::before {
 
 .welcome-text {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     position: relative;
     z-index: 2;
 }
 
 .welcome-text h1 {
-    font-size: 38px;
+    font-size: 32px;
     color: white;
     font-weight: 700;
     line-height: 1.3;
@@ -271,7 +291,7 @@ body::before {
 }
 
 .illustration {
-    max-width: 280px;
+    max-width: 220px;
     width: 100%;
     height: auto;
     position: relative;
@@ -290,9 +310,28 @@ body::before {
    ======================================== */
 .right-section {
     flex: 1;
-    padding: 50px 45px;
+    padding: 40px 40px;
     background: #f2efe9;
     animation: fadeInRight 0.8s ease-out;
+    overflow-y: auto; /* Scroll hanya di dalam section ini jika perlu */
+    max-height: calc(100vh - 40px);
+}
+
+.right-section::-webkit-scrollbar {
+    width: 6px;
+}
+
+.right-section::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.right-section::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+.right-section::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
 }
 
 @keyframes fadeInRight {
@@ -307,24 +346,24 @@ body::before {
 }
 
 .login-header h2 {
-    font-size: 32px;
+    font-size: 28px;
     color: #247f80;
-    margin-bottom: 30px;
+    margin-bottom: 24px;
     font-weight: 700;
-    padding-left: 135px;
+    text-align: center;
 }
 
 /* ========================================
    ALERTS
    ======================================== */
-.alert {
-    padding: 14px 16px;
+.alert, .session-alert {
+    padding: 12px 14px;
     border-radius: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 14px;
+    font-size: 13px;
     animation: slideDown 0.4s ease-out;
 }
 
@@ -339,7 +378,7 @@ body::before {
     }
 }
 
-.alert-info {
+.alert-info, .session-alert {
     background: #dbeafe;
     color: #1e40af;
     border-left: 4px solid #3b82f6;
@@ -358,8 +397,8 @@ body::before {
 }
 
 .alert-icon {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     stroke-width: 2;
     flex-shrink: 0;
 }
@@ -368,13 +407,13 @@ body::before {
    FORM STYLES
    ======================================== */
 .form-group {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 8px;
-    color: #374151;
+    margin-bottom: 6px;
+    color: #247f80;
     font-weight: 600;
     font-size: 14px;
 }
@@ -403,10 +442,10 @@ body::before {
 
 .input-wrapper input {
     width: 100%;
-    padding: 14px 14px 14px 44px;
+    padding: 12px 14px 12px 44px;
     border: 2px solid #e5e7eb;
     border-radius: 10px;
-    font-size: 15px;
+    font-size: 14px;
     transition: all 0.3s;
     background: #f9fafb;
 }
@@ -454,7 +493,7 @@ body::before {
 
 .error-message {
     color: #dc2626;
-    font-size: 13px;
+    font-size: 12px;
     margin-top: 6px;
     display: flex;
     align-items: center;
@@ -469,8 +508,8 @@ body::before {
 }
 
 .error-icon {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     stroke-width: 2;
     flex-shrink: 0;
 }
@@ -480,16 +519,16 @@ body::before {
    ======================================== */
 .login-btn {
     width: 100%;
-    padding: 14px;
+    padding: 12px;
     background: linear-gradient(135deg, #5fcfd1 0%, #136b97 100%);
     color: white;
     border: none;
     border-radius: 10px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
-    margin-top: 10px;
+    margin-top: 8px;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -554,9 +593,9 @@ body::before {
     display: flex;
     align-items: center;
     text-align: center;
-    margin: 24px 0;
+    margin: 20px 0;
     color: #878f9e;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .divider::before,
@@ -579,14 +618,14 @@ body::before {
     justify-content: center;
     gap: 12px;
     width: 100%;
-    padding: 13px;
+    padding: 11px;
     background: white;
     border: 2px solid #e5e7eb;
     border-radius: 10px;
     color: #374151;
     text-decoration: none;
     font-weight: 600;
-    font-size: 15px;
+    font-size: 14px;
     transition: all 0.3s;
 }
 
@@ -598,8 +637,8 @@ body::before {
 }
 
 .google-icon {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
 }
 
 /* ========================================
@@ -607,9 +646,9 @@ body::before {
    ======================================== */
 .register-link {
     text-align: center;
-    margin-top: 24px;
+    margin-top: 20px;
     color: black;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .register-link a {
@@ -628,40 +667,44 @@ body::before {
    RESPONSIVE
    ======================================== */
 @media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
     .logo {
-        top: 20px;
-        left: 20px;
-        font-size: 24px;
+        top: 15px;
+        left: 15px;
+        font-size: 20px;
     }
 
     .login-container {
         flex-direction: column;
-        margin: 20px;
+        max-height: calc(100vh - 20px);
     }
 
     .left-section {
-        padding: 40px 30px;
+        padding: 30px 20px;
     }
 
     .welcome-text h1 {
-        font-size: 28px;
+        font-size: 24px;
     }
 
     .illustration {
-        max-width: 200px;
+        max-width: 160px;
     }
 
     .right-section {
-        padding: 40px 30px;
+        padding: 30px 25px;
     }
 
     .login-header h2 {
-        font-size: 26px;
+        font-size: 24px;
     }
 
     .toast {
-        min-width: calc(100vw - 40px);
-        right: 20px;
-        left: 20px;
+        min-width: calc(100vw - 20px);
+        right: 10px;
+        left: 10px;
     }
 }
