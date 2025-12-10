@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alchemy - Login</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('images/logo1.png') }}">
     <link rel="stylesheet" href="{{ asset('css/auth-login.css') }}">
 </head>
 <body>
@@ -17,7 +19,10 @@
         <button class="toast-close">&times;</button>
     </div>
 
-    <div class="logo">AIchemy</div>
+    <a href="{{ route('index') }}" class="logo">
+        <img src="{{ asset('images/logo2.png') }}" alt="Alchemy logo" class="logo-img">
+    </a>
+
 
     <div class="login-container">
         <div class="left-section">
