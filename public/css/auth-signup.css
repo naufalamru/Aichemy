@@ -10,6 +10,40 @@ body {
     background: #f9f7f3;
     overflow-x: hidden;
     position: relative;
+    padding-top: 80px;
+}
+
+.logo {
+    position: fixed;
+    left: 30px;
+    top: 5px;
+    bottom: 10px;
+    z-index: 1000;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.logo-img {
+    width: 125px;
+    height: 125px;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15));
+}
+
+.logo:hover .logo-img {
+    animation: float 1s ease-in-out infinite;
+    filter: drop-shadow(0 8px 16px rgba(36, 127, 128, 0.3));
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 /* Animated Background */
@@ -119,23 +153,29 @@ body {
 /* Main Container */
 .main-container {
     position: relative;
-    max-width: 1200px;
-    margin: 40px auto;
+    max-width: 1100px;
+    margin: 20px auto 40px;
     background: #f2efe9;
     border-radius: 24px;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
     overflow: hidden;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: 700px;
+    min-height: 650px;
     z-index: 1;
-    animation: fadeIn 0.8s ease-out;
+    animation: fadeInUp 0.8s ease-out;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-@keyframes fadeIn {
+.main-container:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(50px);
     }
     to {
         opacity: 1;
@@ -267,7 +307,7 @@ body {
 
 /* Right Section - Form */
 .right-section {
-    padding: 60px;
+    padding: 50px;
     display: flex;
     align-items: center;
 }
@@ -277,12 +317,12 @@ body {
 }
 
 .form-header {
-    margin-bottom: 32px;
+    margin-bottom: 28px;
     text-align: center;
 }
 
 .form-header h2 {
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 700;
     color: #247f80;
     margin-bottom: 8px;
@@ -290,19 +330,19 @@ body {
 
 .form-header p {
     color: #48A6A7;
-    font-size: 16px;
+    font-size: 15px;
 }
 
 /* Form Groups */
 .form-group {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
     display: block;
     font-size: 14px;
     font-weight: 600;
-    color: #374151;
+    color: #247f80;
     margin-bottom: 8px;
 }
 
@@ -337,7 +377,7 @@ body {
 .input-wrapper input:focus {
     outline: none;
     border-color: #48A6A7;
-    box-shadow: 0 0 0 4px rgba(147, 51, 234, 0.1);
+    box-shadow: 0 0 0 4px rgba(72, 166, 167, 0.1);
     transform: translateY(-2px);
 }
 
@@ -493,12 +533,12 @@ body {
 }
 
 .submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(44, 178, 208, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(44, 178, 208, 0.4);
 }
 
 .submit-btn:active {
-    transform: translateY(0);
+    transform: translateY(-1px);
 }
 
 .submit-btn:disabled {
@@ -527,7 +567,7 @@ body {
 /* Divider */
 .divider {
     text-align: center;
-    margin: 24px 0;
+    margin: 20px 0;
     position: relative;
 }
 
@@ -590,7 +630,7 @@ body {
 /* Footer Link */
 .footer-link {
     text-align: center;
-    margin-top: 24px;
+    margin-top: 20px;
     color: #6b7280;
     font-size: 14px;
 }
@@ -609,9 +649,20 @@ body {
 
 /* Responsive */
 @media (max-width: 968px) {
+    body {
+        padding-top: 70px;
+    }
+
+    .logo {
+        font-size: 2rem;
+        top: 15px;
+        left: 20px;
+    }
+
     .main-container {
         grid-template-columns: 1fr;
         margin: 20px;
+        max-width: 600px;
     }
 
     .left-section {
@@ -619,7 +670,7 @@ body {
     }
 
     .right-section {
-        padding: 40px 24px;
+        padding: 40px 30px;
     }
 
     .blob {
@@ -629,8 +680,16 @@ body {
 }
 
 @media (max-width: 480px) {
+    .logo {
+        font-size: 1.8rem;
+    }
+
     .form-header h2 {
         font-size: 24px;
+    }
+
+    .right-section {
+        padding: 30px 20px;
     }
 
     .submit-btn,
