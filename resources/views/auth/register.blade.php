@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up — Alchemy</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('images/logo1.png') }}">
     <link rel="stylesheet" href="{{ asset('css/auth-signup.css') }}">
 </head>
 <body>
+
     <!-- Toast Notification -->
     <div id="toast" class="toast">
         <svg class="toast-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -14,6 +17,10 @@
         </svg>
         <span id="toast-message"></span>
     </div>
+
+    <a href="{{ route('index') }}" class="logo">
+        <img src="{{ asset('images/logo2.png') }}" alt="Alchemy logo" class="logo-img">
+    </a>
 
     <!-- Animated Background -->
     <div class="background-animation">
