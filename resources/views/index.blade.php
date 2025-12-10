@@ -6,6 +6,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Alchemy - Where AI Meets Chemistry</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('images/logo1.png') }}">
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
@@ -20,7 +23,10 @@
     <header class="navbar" id="navbar">
         <div class="nav-inner container">
             <div class="brand">
-                <a href="#home" class="logo">✨ Alchemy</a>
+                <a href="#home" class="logo">
+                    <img src="{{ asset('images/logo1.png') }}" alt="Alchemy logo" class="logo-img">
+                    <span class="logo-text">Alchemy</span>
+                </a>
             </div>
 
             <nav class="nav-links" id="navLinks">
@@ -36,8 +42,25 @@
             </nav>
 
             <div class="auth">
+                @if(Auth::check())
+        <div class="user-dropdown">
+            <button class="user-btn" id="userDropdownBtn">
+                <i class="fas fa-user"></i>
+                👤 Hi, {{ Auth::user()->name }}!
+                <span class="arrow">▼</span>
+            </button>
+
+            <div class="dropdown-menu" id="dropdownMenu">
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="logout-btn">Logout</button>
+                </form>
+            </div>
+        </div>
+        @else
                 <a href="{{ route('login') }}" class="btn-login">LOGIN</a>
                 <a href="{{ route('register') }}" class="btn-signup">Sign Up →</a>
+                @endif
             </div>
 
             <button class="mobile-toggle" id="mobileToggle">
@@ -108,13 +131,7 @@
             </div>
         </div>
 
-        <!-- Scroll Indicator -->
-        <div class="scroll-indicator">
-            <div class="mouse">
-                <div class="wheel"></div>
-            </div>
-            <p>Scroll Down</p>
-        </div>
+
     </section>
 
     <!-- HOW IT WORKS -->
@@ -435,15 +452,15 @@
     </section>
 
     <!-- CTA BOTTOM -->
-    <section class="cta-block">
+    <section class="cta-block-b">
         <div class="container">
-            <div class="cta-inner">
-                <div class="cta-content">
+            <div class="cta-inner-b">
+                <div class="cta-content-b">
                     <h3>✨ Ready to Discover Your Perfect Skincare Formula?</h3>
                     <p>Biarkan Agentic AI kami menganalisis kulitmu dan memberi rekomendasi terbaik.</p>
                 </div>
-                <div class="cta-action">
-                    <a href="#" class="cta cta-large">
+                <div class="cta-action-b">
+                    <a href="{{ route('chatbot') }}" class="cta cta-large-b">
                         <span>🧠 Coba Sekarang!</span>
                         <svg width="30" height="24" viewBox="0 0 20 24" fill="none">
                             <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -471,8 +488,8 @@
                 <h4>Menu</h4>
                 <ul>
                     <li><a href="#home">Home</a></li>
-                    <li><a href="#how">How it Works</a></li>
-                    <li><a href="#about">Tentang Kami</a></li>
+                    <li><a href="{{ route('chatbot') }}">Chatbot</a></li>
+                    <li><a href="{{ route('tanya-ai') }}">Tanya AI</a></li>
                     <li><a href="{{ route('login') }}">Login</a></li>
                 </ul>
             </div>
@@ -486,7 +503,7 @@
 
         <div class="copyright">
             <div class="container">
-                <p>© 2025 Alchemy. All rights reserved. Made with ❤️ by Alchemy Team</p>
+                <p>© 2025 Alchemy. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -496,5 +513,25 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/main.js') }}"></script>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const btn = document.getElementById("userDropdownBtn");
+    const menu = document.getElementById("dropdownMenu");
+
+    if (btn && menu) {
+        btn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            menu.classList.toggle("show");
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!btn.contains(e.target) && !menu.contains(e.target)) {
+                menu.classList.remove("show");
+            }
+        });
+    }
+});
+</script>
+
 </body>
 </html>
