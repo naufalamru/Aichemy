@@ -40,15 +40,21 @@ Route::middleware('auth')->group(function () {
         return view('home');
     })->name('chatbot');
 
+     // Chat Features
+    Route::post('/chat/send', [ChatController::class, 'send']);
+    Route::get('/chat/histories', [ChatController::class, 'histories']);
+    Route::get('/chat/messages/{id}', [ChatController::class, 'messages']);
+
     // ENDPOINT CHATBOT (dipanggil frontend)
     Route::post('/chatbot/ask', [ChatController::class, 'ask'])->name('chat.ask');
 
     // Query Sains
-    Route::get('/tanya-ai', function () {
-        return view('querysains');
-    })->name('tanya-ai');
-    Route::post('/querysains/ask', [querysainsController::class, 'ask']);
+    Route::get('/tanya-ai', [querysainsController::class, 'query'])->name('tanya-ai');
+    Route::post('/querysains/ask', [querysainsController::class, 'ask'])->name('querysains.ask');
+    Route::get('/querysains/histories', [querysainsController::class, 'histories'])->name('querysains.histories');
+    Route::get('/querysains/messages/{id}', [querysainsController::class, 'messages'])->name('querysains.messages');
 
     // Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
+
