@@ -48,6 +48,7 @@ body {
     width: 100%;
     height: 100%;
     z-index: 0;
+    pointer-events: none;
 }
 
 
@@ -88,6 +89,32 @@ body {
 }
 
 .brand .logo:hover {
+    transform: scale(1.05) translateY(-4px);
+    filter: drop-shadow(0 8px 12px rgba(72, 166, 167, 0.2));
+}
+
+/* Logo image + text alignment */
+.brand .logo-img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0px;
+}
+
+.brand .logo-text {
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: 700;
+    font-size: 28px;
+    background: var(--gradient-1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.brand .logo:hover .logo-img, .brand .logo:hover .logo-text {
     transform: scale(1.05) translateY(-4px);
     filter: drop-shadow(0 8px 12px rgba(72, 166, 167, 0.2));
 }
@@ -184,6 +211,138 @@ body {
     background: var(--dark);
     border-radius: 2px;
     transition: all 0.3s ease;
+}
+
+/* ==================== USER DROPDOWN ==================== */
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.user-btn {
+    background: linear-gradient(135deg, #48A6A7 0%, #025c89 100%);
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(72, 166, 167, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 28px;
+    padding: 10px 22px;
+    cursor: pointer;
+    border: 0;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.user-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.user-btn:hover::before {
+    left: 100%;
+}
+
+.user-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(72, 166, 167, 0.45);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.user-btn:active {
+    transform: translateY(0);
+}
+
+.user-btn i {
+    font-size: 18px;
+    color: white;
+}
+
+.arrow {
+    font-size: 10px;
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.user-btn:hover .arrow {
+    transform: translateY(2px);
+}
+
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 10px);
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(13, 38, 62, 0.12);
+    min-width: 180px;
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    z-index: 60;
+    padding: 8px;
+    pointer-events: none;
+}
+
+.dropdown-menu.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+@keyframes dropdownSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-menu::before {
+    content: "";
+    position: absolute;
+    top: -7px;
+    right: 22px;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    transform: rotate(45deg);
+    box-shadow: -2px -2px 6px rgba(13, 38, 62, 0.04);
+    border-radius: 2px;
+}
+
+.dropdown-menu .logout-btn {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 10px;
+    color: #1F2937;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+.dropdown-menu .logout-btn:hover {
+    background: linear-gradient(135deg, rgba(72, 166, 167, 0.1) 0%, rgba(2, 92, 137, 0.1) 100%);
+    color: #025c89;
+    transform: translateX(4px);
 }
 
 /* ==================== MOBILE MENU ==================== */
@@ -482,11 +641,12 @@ body {
     height: auto;
     border-radius: 20px;
     animation: float 4s ease-in-out infinite;
+    margin-bottom: 58px;
 }
 
 .glow-effect {
     position: absolute;
-    top: 50%;
+    top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 80%;
@@ -566,10 +726,204 @@ body {
     width: 100%;
 }
 
-/* ==================== NUMBERS ==================== */
+/* ==================== COMPARISON SECTION ==================== */
+.comparison-section {
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.comparison-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.comparison-section::after {
+    content: '';
+    position: absolute;
+    bottom: -50%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 10s ease-in-out infinite reverse;
+    pointer-events: none;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+    position: relative;
+    z-index: 1;
+}
+
+.comparison-card {
+    background: white;
+    padding: 28px 24px;
+    border-radius: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.comparison-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--gradient-1);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+}
+
+.comparison-card:hover::before {
+    transform: scaleX(1);
+}
+
+.comparison-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+}
+
+.chatbot-card::before {
+    background: var(--gradient-1);
+}
+
+.tanya-card::before {
+    background: var(--gradient-1);
+}
+
+.card-icon-large {
+    font-size: 44px;
+    margin-bottom: 10px;
+}
+
+.card-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--dark);
+    margin-left: 160px;
+}
+
+.card-description {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--gray);
+    margin-bottom: 18px;
+}
+
+.card-features {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 16px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    color: var(--dark);
+    font-weight: 500;
+}
+
+.feature-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.comparison-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 16px 30px;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.comparison-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.6s ease;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.comparison-btn:hover::after {
+    left: 120%;
+}
+
+.comparison-btn span,
+.comparison-btn svg {
+    position: relative;
+    z-index: 1;
+}
+
+.btn-chatbot {
+    background: var(--gradient-1);
+    color: white;
+    box-shadow: 0 8px 25px rgba(108, 223, 221, 0.3);
+}
+
+.btn-chatbot:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(108, 223, 221, 0.3);
+}
+
+.btn-tanya {
+    background: var(--gradient-1);
+    color: white;
+    box-shadow: 0 8px 25px rgba(108, 223, 221, 0.3);
+}
+
+.btn-tanya:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(108, 223, 221, 0.33);
+}
+
+.comparison-divider {
+    display: none !important;
+}
+
+/* ==================== NUMBERS / STATS ==================== */
 .numbers {
     padding: 100px 0;
     background: white;
+    position: relative;
+    z-index: 1;
 }
 
 .numbers-grid {
@@ -660,7 +1014,6 @@ body {
 /* ==================== WHY ALCHEMY ==================== */
 .why-section {
     padding: 100px 0;
-
 }
 
 .why-cards {
@@ -706,6 +1059,8 @@ body {
     padding: 100px 0;
     background: white;
     overflow: hidden;
+    position: relative;
+    z-index: 1;
 }
 
 .team-slider {
@@ -811,72 +1166,11 @@ body {
     right: 20px;
 }
 
-/* ==================== CTA BLOCK ==================== */
-.cta-block {
-    padding: 80px 0;
-    background: var(--cream);
-}
-
-.cta-block::before {
-    content: '';
-    position: absolute;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
-    border-radius: 50%;
-    animation: float 8s ease-in-out infinite;
-}
-
-.cta-block::after {
-    content: '';
-    position: absolute;
-    bottom: -50%;
-    background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
-    border-radius: 50%;
-    animation: float 10s ease-in-out infinite reverse;
-}
-
-.cta-inner {
-    background: var(--gradient-1);
-    backdrop-filter: blur(10px);
-    border-radius: 30px;
-    padding: 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 40px;
-}
-
-.cta-action {
-    min-width: fit-content;
-    max-width: 600px;
-}
-.cta-content h3 {
-    font-size: 36px;
-    color: var(--cream);
-    margin-bottom: 15px;
-}
-
-.cta-content p {
-    font-size: 18px;
-    color: var(--cream);
-}
-
-.cta-large {
-    background: var(--cream);
-    color: var(--gradient-1);
-    padding: 18px 20px;
-    font-size: 18px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-}
-
-.cta-large:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-}
-
 /* ==================== CTA BLOCK BOTTOM ==================== */
 .cta-block-b {
     padding: 80px 0;
     background: var(--cream);
+    position: relative;
 }
 
 .cta-block-b::before {
@@ -885,6 +1179,7 @@ body {
     background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
     border-radius: 50%;
     animation: float 8s ease-in-out infinite;
+    pointer-events: none;
 }
 
 .cta-block-b::after {
@@ -894,6 +1189,7 @@ body {
     background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
     border-radius: 50%;
     animation: float 10s ease-in-out infinite reverse;
+    pointer-events: none;
 }
 
 .cta-inner-b {
@@ -905,12 +1201,15 @@ body {
     justify-content: space-between;
     align-items: center;
     gap: 40px;
+    position: relative;
+    z-index: 1;
 }
 
 .cta-action-b {
     min-width: fit-content;
     max-width: 600px;
 }
+
 .cta-content-b h3 {
     font-size: 36px;
     color: var(--cream);
@@ -940,6 +1239,8 @@ body {
     background: var(--gradient-1);
     color: var(--cream);
     padding: 60px 0 0;
+    position: relative;
+    z-index: 1;
 }
 
 .footer-inner {
@@ -1135,6 +1436,17 @@ body {
     }
 }
 
+@keyframes ripple {
+    0% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
 /* ==================== RESPONSIVE ==================== */
 @media (max-width: 1024px) {
     .hero-inner {
@@ -1164,6 +1476,13 @@ body {
 
     .footer-inner {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 900px) {
+    .comparison-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
     }
 }
 
@@ -1202,303 +1521,8 @@ body {
         grid-template-columns: 1fr;
     }
 
-    .cta-inner {
+    .cta-inner-b {
         flex-direction: column;
         text-align: center;
-    }
-}
-
-/* ==================== COMPARISON SECTION ==================== */
-.comparison-section {
-    padding: 100px 0;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, rgba(16, 185, 129, 0.03) 100%);
-    position: relative;
-    overflow: hidden;
-}
-
-.comparison-section::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -10%;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
-    border-radius: 50%;
-    animation: float 8s ease-in-out infinite;
-}
-
-.comparison-section::after {
-    content: '';
-    position: absolute;
-    bottom: -50%;
-    right: -10%;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
-    border-radius: 50%;
-    animation: float 10s ease-in-out infinite reverse;
-}
-
-.comparison-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    align-items: start;
-    position: relative;
-    z-index: 1;
-}
-
-.comparison-card {
-    background: white;
-    padding: 50px 40px;
-    border-radius: 30px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-    transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.comparison-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: var(--gradient-1);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s ease;
-}
-
-.comparison-card:hover::before {
-    transform: scaleX(1);
-}
-
-.comparison-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
-}
-
-.chatbot-card::before {
-    background: var(--gradient-1);
-}
-
-.tanya-card::before {
-    background: var(--gradient-1);
-}
-
-.card-icon-large {
-    font-size: 64px;
-    margin-bottom: 25px;
-    animation: bounce 2s ease-in-out infinite;
-}
-
-.card-title {
-    font-size: 32px;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: var(--dark);
-    margin-left: 160px;
-}
-
-.card-description {
-    font-size: 16px;
-    line-height: 1.8;
-    color: var(--gray);
-    margin-bottom: 30px;
-}
-
-.card-features {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-bottom: 35px;
-    padding: 25px 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.feature-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 15px;
-    color: var(--dark);
-    font-weight: 500;
-}
-
-.feature-icon {
-    font-size: 20px;
-    flex-shrink: 0;
-}
-
-.comparison-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    padding: 16px 30px;
-    border-radius: 15px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 16px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-/* SHINE effect similar to login button */
-.comparison-btn::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -120%;
-    width: 40%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
-    transform: skewX(-20deg);
-    transition: left 0.6s ease;
-    z-index: 0;
-    pointer-events: none;
-}
-.comparison-btn:hover::after {
-    left: 120%;
-}
-
-.comparison-btn span,
-.comparison-btn svg {
-    position: relative;
-    z-index: 1;
-}
-
-.comparison-btn::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-}
-
-.comparison-btn:hover::before {
-    width: 300px;
-    height: 300px;
-}
-
-.comparison-btn span,
-.comparison-btn svg {
-    position: relative;
-    z-index: 1;
-}
-
-.btn-chatbot {
-    background: var(--gradient-1);
-    color: white;
-    box-shadow: 0 8px 25px rgba(108, 223, 221, 0.3);
-}
-
-.btn-chatbot:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 35px rgba(108, 223, 221, 0.3);
-}
-
-.btn-tanya {
-    background: var(--gradient-1);
-    color: white;
-    box-shadow: 0 8px 25px rgba(108, 223, 221, 0.3);
-}
-
-/* Normalize hover behavior for both comparison buttons to match Sign Up */
-.btn-tanya:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 35px rgba(108, 223, 221, 0.33);
-}
-
-.comparison-divider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 80px;
-    height: 80px;
-    background: white;
-    border-radius: 50%;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-    font-size: 24px;
-    font-weight: 700;
-    background: var(--gradient-1);
-    color: white;
-    position: relative;
-    animation: pulse 2s ease-in-out infinite;
-}
-
-.comparison-divider::before,
-.comparison-divider::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: inherit;
-    opacity: 0.3;
-    animation: ripple 2s ease-out infinite;
-}
-
-.comparison-divider::after {
-    animation-delay: 1s;
-}
-
-@keyframes ripple {
-    0% {
-        transform: scale(1);
-        opacity: 0.3;
-    }
-    100% {
-        transform: scale(1.5);
-        opacity: 0;
-    }
-}
-
-/* ==================== CUSTOM ADJUSTMENTS FOR COMPARISON CARDS ==================== */
-/* Reduce top spacing inside cards and make the center "VS" divider hidden */
-
-.comparison-card {
-    /* less padding so content sits higher */
-    padding: 28px 24px;
-}
-
-.card-icon-large {
-    /* smaller icon and less space under it */
-    font-size: 44px;
-    margin-bottom: 10px;
-    animation: none; /* optional: stop bounce to avoid extra perceived spacing */
-}
-
-.card-title {
-    margin-bottom: 12px;
-}
-
-.card-description {
-    margin-bottom: 18px;
-}
-
-.card-features {
-    margin-bottom: 20px;
-    padding: 16px 0;
-}
-
-.comparison-divider {
-    display: none !important; /* hide the VS circle */
-}
-
-/* Small screens: keep responsive two-column -> single column behavior */
-@media (max-width: 900px) {
-    .comparison-grid {
-        grid-template-columns: 1fr;
-        gap: 24px;
     }
 }
