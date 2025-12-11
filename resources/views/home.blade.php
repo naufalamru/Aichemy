@@ -193,31 +193,6 @@
     </footer>
 
     <script>
-        // ================== FLOWISE API (TIDAK DIUBAH) ==================
-        async function queryFlowise(question) {
-            try {
-                const response = await fetch(
-                    "https://cloud.flowiseai.com/api/v1/prediction/13c1bdeb-3438-4ad4-9ec3-f1878bcdc7e0",
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({ question })
-                    }
-                );
-
-                if (!response.ok) {
-                    throw new Error("Flowise API Error: " + response.status);
-                }
-
-                const result = await response.json();
-                return result;
-            } catch (err) {
-                console.error("Flowise Error:", err);
-                return { text: "⚠️ Error: Flowise returned error" };
-            }
-        }
 
         // ================== CHAT FUNCTIONS (MAINTAIN EXISTING BEHAVIOR) ==================
         function addMessage(sender, text) {
