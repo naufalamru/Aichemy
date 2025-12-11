@@ -58,7 +58,7 @@ class querysainsController extends Controller
             // Tambahkan instruksi bahasa Indonesia ke prompt
             // Format: System instruction + User question
             $questionWithLanguage = "Anda adalah asisten AI yang ahli dalam skincare dan bahan aktif. Selalu jawab dalam Bahasa Indonesia dengan jelas, terstruktur, dan mudah dipahami. Gunakan format markdown untuk membuat jawaban lebih rapi.\n\nPertanyaan: " . $question;
-            
+
             // Request ke Flowise Cloud (sesuai format API Flowise)
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json'
@@ -69,7 +69,7 @@ class querysainsController extends Controller
                 'connect_timeout' => 30
             ])
             ->post(
-                'https://cloud.flowiseai.com/api/v1/prediction/24e550f9-bf74-47e3-a582-f246cc1aa866',
+                'https://cloud.flowiseai.com/api/v1/prediction/ce27d92c-1a73-4132-9f41-68cd90767399',
                 [
                     'question' => $questionWithLanguage
                 ]
@@ -78,7 +78,7 @@ class querysainsController extends Controller
             // Jika API Flowise error
             if ($response->failed()) {
                 $errorMessage = "⚠️ Error: Flowise API error";
-                
+
                 // Simpan error sebagai pesan bot
                 QueryMessage::create([
                     'history_id' => $history->id,
@@ -118,7 +118,7 @@ class querysainsController extends Controller
 
         } catch (\Exception $e) {
             $errorMessage = "⚠️ Error: " . $e->getMessage();
-            
+
             // Simpan error sebagai pesan bot
             QueryMessage::create([
                 'history_id' => $history->id,
@@ -143,7 +143,7 @@ class querysainsController extends Controller
     {
         try {
             $userId = Auth::id();
-            
+
             if (!$userId) {
                 return response()->json([
                     'error' => 'User tidak terautentikasi',
