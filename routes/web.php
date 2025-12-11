@@ -7,11 +7,18 @@ use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\querysainsController;
 use App\Http\Controllers\ChatController;
+use Laravel\Socialite\Facades\Socialite;
 
 // ============================================
 // PUBLIC ROUTES
 // ============================================
 Route::get('/', [HomeController::class, 'indexPublic'])->name('index');
+
+/* GOOGLE OAUTH */
+
+Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google');
+Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
+
 
 // ============================================
 // GUEST ROUTES
@@ -24,8 +31,6 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.action');
 
-    Route::get('/auth/google/redirect', [GoogleController::class, 'redirect'])->name('google.redirect');
-    Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
 });
 
 // ============================================
