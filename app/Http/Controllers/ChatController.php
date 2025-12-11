@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {
-    // Halaman chat (home.blade)
+    // Halaman chat
     public function chat()
     {
         return view('home');
     }
 
     // ============================
-    // 1️⃣ SEND MESSAGE
+    // 1️⃣ SEND MESSAGE (with context)
     // ============================
     public function send(Request $request)
     {
@@ -46,7 +46,7 @@ class ChatController extends Controller
             $history = ChatHistory::create([
                 'user_id' => Auth::id(),
                 'session_id' => null,
-                'title' => substr($question, 0, 50) // Ambil 50 karakter pertama sebagai title
+                'title' => substr($question, 0, 50)
             ]);
         }
 
@@ -57,12 +57,24 @@ class ChatController extends Controller
             'content' => $question
         ]);
 
+        // 🔥 KUMPULKAN KONTEXT UNTUK FLOWISE
+        $allMessages = ChatMessage::where('history_id', $history->id)
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        $contextText = "";
+
+        foreach ($allMessages as $msg) {
+            $role = $msg->sender === 'user' ? "User" : "Bot";
+            $contextText .= "$role: " . $msg->content . "\n";
+        }
+
         // Kirim ke Flowise
         try {
-            $endpoint = 'https://cloud.flowiseai.com/api/v1/prediction/13c1bdeb-3438-4ad4-9ec3-f1878bcdc7e0';
+            $endpoint = 'https://cloud.flowiseai.com/api/v1/prediction/2b345575-c5fb-452a-8035-481b2ceef55a';
 
             $res = Http::post($endpoint, [
-                "question" => $question
+                "question" => $contextText
             ]);
 
             $data = $res->json();
@@ -78,7 +90,6 @@ class ChatController extends Controller
             'content' => $reply
         ]);
 
-        // Update timestamp history supaya daftar history terurut terbaru
         $history->touch();
 
         return response()->json([
@@ -96,19 +107,10 @@ class ChatController extends Controller
     {
         try {
             $userId = Auth::id();
-            $user = Auth::user();
-            
-            // Log untuk debugging (bisa dihapus setelah fix)
-            Log::info('Histories request', [
-                'user_id' => $userId,
-                'user' => $user ? $user->name : 'null',
-                'authenticated' => Auth::check()
-            ]);
-            
+
             if (!$userId) {
                 return response()->json([
                     'error' => 'User tidak terautentikasi',
-                    'authenticated' => false
                 ], 401);
             }
 
@@ -118,13 +120,8 @@ class ChatController extends Controller
 
             return response()->json($histories);
         } catch (\Exception $e) {
-            Log::error('Error loading histories', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-            
             return response()->json([
-                'error' => 'Terjadi kesalahan saat memuat history: ' . $e->getMessage()
+                'error' => 'Terjadi kesalahan: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -134,7 +131,6 @@ class ChatController extends Controller
     // ============================
     public function messages($id)
     {
-        // Validasi bahwa history milik user yang login
         $history = ChatHistory::where('id', $id)
             ->where('user_id', Auth::id())
             ->first();
@@ -153,11 +149,10 @@ class ChatController extends Controller
     }
 
     // ============================
-    // 4️⃣ ASK CHATBOT (alias untuk send)
+    // 4️⃣ Alias ask() → send()
     // ============================
     public function ask(Request $request)
     {
-        // Ini adalah alias dari send() untuk endpoint /chatbot/ask
         return $this->send($request);
     }
 }
