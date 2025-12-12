@@ -188,5 +188,5 @@ Cocok untuk:
 <hr>
 
 <p align="center">
-  
+  © 2025 Alchemy. All rights reserved.
 </p>
