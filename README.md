@@ -1,59 +1,235 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+✨ Alchemy — Agentic AI Skincare Assistant
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Alchemy adalah platform AI berbasis web yang membantu menganalisis kebutuhan kulit, membaca informasi bahan aktif skincare, dan memberikan rekomendasi berbasis sains. Proyek ini dibangun menggunakan Laravel, JavaScript, dan terintegrasi dengan Flowise API atau model AI eksternal lainnya.
 
-## About Laravel
+Website produksi: https://aichemy.my.id/
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+📘 1. Deskripsi Singkat Proyek
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Alchemy bertujuan membantu pengguna memahami skincare melalui kecerdasan buatan.
+Fitur utama:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Chatbot AI untuk percakapan umum.
 
-## Learning Laravel
+Tanya AI (Scientific Mode) untuk jawaban berbasis sains.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Autentikasi (login & register).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Riwayat pertanyaan (history) — opsional.
 
-## Laravel Sponsors
+Mendukung integrasi dengan model AI yang di-host via Flowise atau platform lain.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+🛠 2. Petunjuk Setup Environment
+A. Persyaratan Sistem
 
-### Premium Partners
+Pastikan perangkat Anda sudah terinstal:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+PHP 8.1+
 
-## Contributing
+Composer
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+MySQL / MariaDB
 
-## Code of Conduct
+Node.js & NPM
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Laravel 10+
 
-## Security Vulnerabilities
+Git (opsional)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Laragon / XAMPP / WAMP (Windows)
 
-## License
+B. Langkah Setup Environment
+1️⃣ Clone atau ekstrak project
+git clone <URL_REPOSITORY>
+cd Aichemy-main
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+Atau jika menggunakan ZIP:
+
+unzip aichemy.zip
+cd Aichemy-main
+
+2️⃣ Install dependency backend
+composer install
+
+3️⃣ Install dependency frontend
+npm install
+
+4️⃣ Buat file .env
+cp .env.example .env
+
+
+Isi konfigurasi penting:
+
+APP_NAME=Alchemy
+APP_ENV=local
+APP_URL=http://localhost:8000
+
+DB_DATABASE=aichemy
+DB_USERNAME=root
+DB_PASSWORD=
+
+FLOWISE_API=http://localhost:3000/api/v1
+FLOWISE_KEY=your_flowise_key_here
+
+5️⃣ Generate application key
+php artisan key:generate
+
+6️⃣ Buat database
+
+Buat database baru:
+
+aichemy
+
+
+Pastikan .env sesuai.
+
+7️⃣ Migrasikan database
+php artisan migrate
+
+
+Jika memiliki seeder:
+
+php artisan db:seed
+
+🔗 3. Tautan Model Machine Learning (Jika Ada)
+
+Proyek ini menggunakan AI dari Flowise sehingga tidak menyertakan model lokal.
+
+📌 Model via Flowise
+
+Endpoint model:
+
+https://<flowise-server>/api/v1/prediction
+
+
+Dokumentasi Flowise:
+https://docs.flowiseai.com
+
+📌 (Opsional) Model Lokal
+
+Model dapat ditempatkan di:
+
+/public/models/
+
+
+Cara load model (contoh TensorFlow.js):
+
+const model = await tf.loadLayersModel('/models/model.json');
+
+
+Jika Anda ingin membuat model sendiri, tambahkan link download model di sini.
+
+▶️ 4. Cara Menjalankan Aplikasi
+A. Jalankan backend Laravel
+php artisan serve
+
+
+Aplikasi akan berjalan di:
+
+http://localhost:8000
+
+B. Jalankan frontend (development mode)
+npm run dev
+
+C. Build frontend untuk production
+npm run build
+
+D. Jalankan queue (jika menggunakan job AI)
+php artisan queue:work
+
+📖 5. Petunjuk Penggunaan
+A. Autentikasi
+
+Akses:
+
+/login
+
+/register
+
+User harus login untuk menggunakan fitur AI.
+
+B. Chatbot
+
+Akses:
+
+/chatbot
+
+
+Fitur:
+
+Chat langsung dengan AI
+
+Jawaban cepat dan konteks umum
+
+C. Tanya AI (Scientific Mode)
+
+Akses:
+
+/tanya-ai
+
+
+Backend endpoint:
+
+POST /querysains/ask
+
+
+Fitur:
+
+Jawaban ilmiah dan detail
+
+Menggunakan model dari Flowise / LLM lain
+
+D. Riwayat Pertanyaan (History)
+
+Jika fitur diaktifkan:
+
+Tabel: ai_histories
+
+Endpoint simpan:
+
+POST /history/store
+
+
+User dapat melihat riwayat interaksi dengan AI.
+
+🧩 6. Informasi Penting Lainnya
+✔ Keamanan
+
+Jangan commit file .env
+
+Jangan unggah API key ke repo publik
+
+✔ Permission Folder
+
+Folder berikut harus writable:
+
+storage/
+bootstrap/cache/
+
+✔ Optimasi Mode Production
+php artisan config:cache
+php artisan route:cache
+php artisan optimize
+npm run build
+
+✔ Deployment
+
+Dapat dideploy di:
+
+VPS (Ubuntu + Nginx)
+
+Railway
+
+Render
+
+cPanel / DirectAdmin
+
+Cloud hosting Laravel
+
+Website live:
+https://aichemy.my.id/
+
+📄 7. Lisensi
+
+Proyek ini menggunakan MIT License.
