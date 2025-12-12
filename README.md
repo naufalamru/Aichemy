@@ -49,7 +49,7 @@
 
 <h3>B. Langkah Setup</h3>
 
-<h4>1️Clone atau ekstrak project</h4>
+<h4>1️.Clone atau ekstrak project</h4>
 <pre><code>git clone &lt;URL_REPOSITORY&gt;
 cd Aichemy-main
 </code></pre>
@@ -59,13 +59,13 @@ Jika ZIP:
 cd Aichemy-main
 </code></pre>
 
-<h4>2️Install dependency backend</h4>
+<h4>2️.Install dependency backend</h4>
 <pre><code>composer install</code></pre>
 
-<h4>3️Install dependency frontend</h4>
+<h4>3️.Install dependency frontend</h4>
 <pre><code>npm install</code></pre>
 
-<h4>4️Buat file .env</h4>
+<h4>4️.Buat file .env</h4>
 <pre><code>cp .env.example .env</code></pre>
 
 Isi konfigurasi utama:
@@ -82,10 +82,10 @@ FLOWISE_API=http://localhost:3000/api/v1
 FLOWISE_KEY=your_flowise_key_here
 </code></pre>
 
-<h4>5️Generate key</h4>
+<h4>5️.Generate key</h4>
 <pre><code>php artisan key:generate</code></pre>
 
-<h4>6️Migrasikan database</h4>
+<h4>6️.Migrasikan database</h4>
 <pre><code>php artisan migrate
 php artisan db:seed (jika ada)
 </code></pre>
