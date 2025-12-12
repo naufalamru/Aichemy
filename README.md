@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://aichemy.my.id/" target="_blank">
+    <img src="public/images/logo2.png" width="400" alt="Aichemy Logo">
+  </a>
+</p>
+
 <h1 align="center">Alchemy — Agentic AI Skincare Assistant</h1>
 
 <p align="center">
