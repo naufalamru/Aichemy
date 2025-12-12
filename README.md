@@ -1,66 +1,69 @@
-✨ Alchemy — Agentic AI Skincare Assistant
+<h1 align="center">✨ Alchemy — Agentic AI Skincare Assistant</h1>
 
-Alchemy adalah platform AI berbasis web yang membantu menganalisis kebutuhan kulit, membaca informasi bahan aktif skincare, dan memberikan rekomendasi berbasis sains. Proyek ini dibangun menggunakan Laravel, JavaScript, dan terintegrasi dengan Flowise API atau model AI eksternal lainnya.
+<p align="center">
+  Alchemy adalah platform AI berbasis web yang menganalisis kebutuhan kulit, membaca informasi bahan aktif skincare, 
+  dan memberikan rekomendasi berbasis sains. Dibangun menggunakan <strong>Laravel</strong>, 
+  <strong>JavaScript</strong>, dan terintegrasi dengan <strong>Flowise API</strong>.
+</p>
 
-Website produksi: https://aichemy.my.id/
+<p align="center">
+  <strong>Website produksi:</strong> <a href="https://aichemy.my.id">https://aichemy.my.id</a>
+</p>
 
-📘 1. Deskripsi Singkat Proyek
+<hr>
 
-Alchemy bertujuan membantu pengguna memahami skincare melalui kecerdasan buatan.
-Fitur utama:
+<h2>📘 1. Deskripsi Singkat Proyek</h2>
+<p>
+  Alchemy membantu pengguna memahami skincare menggunakan kecerdasan buatan. 
+  Fitur meliputi:
+</p>
 
-Chatbot AI untuk percakapan umum.
+<ul>
+  <li>🤖 <strong>Chatbot AI</strong> untuk percakapan umum.</li>
+  <li>🧪 <strong>Tanya AI (Scientific Mode)</strong> untuk jawaban berbasis sains.</li>
+  <li>🔐 <strong>Autentikasi pengguna</strong> (login & register).</li>
+  <li>📜 <strong>Riwayat pertanyaan</strong> (opsional).</li>
+  <li>🔌 Integrasi dengan berbagai model AI melalui Flowise.</li>
+</ul>
 
-Tanya AI (Scientific Mode) untuk jawaban berbasis sains.
+<hr>
 
-Autentikasi (login & register).
+<h2>🛠 2. Petunjuk Setup Environment</h2>
 
-Riwayat pertanyaan (history) — opsional.
+<h3>A. Persyaratan Sistem</h3>
+<ul>
+  <li>PHP 8.1+</li>
+  <li>Composer</li>
+  <li>MySQL / MariaDB</li>
+  <li>Node.js & NPM</li>
+  <li>Laravel 10+</li>
+  <li>Git (opsional)</li>
+  <li>Laragon / XAMPP / WAMP (opsional)</li>
+</ul>
 
-Mendukung integrasi dengan model AI yang di-host via Flowise atau platform lain.
+<h3>B. Langkah Setup</h3>
 
-🛠 2. Petunjuk Setup Environment
-A. Persyaratan Sistem
-
-Pastikan perangkat Anda sudah terinstal:
-
-PHP 8.1+
-
-Composer
-
-MySQL / MariaDB
-
-Node.js & NPM
-
-Laravel 10+
-
-Git (opsional)
-
-Laragon / XAMPP / WAMP (Windows)
-
-B. Langkah Setup Environment
-1️⃣ Clone atau ekstrak project
-git clone <URL_REPOSITORY>
+<h4>1️⃣ Clone atau ekstrak project</h4>
+<pre><code>git clone &lt;URL_REPOSITORY&gt;
 cd Aichemy-main
+</code></pre>
 
-
-Atau jika menggunakan ZIP:
-
-unzip aichemy.zip
+Jika ZIP:
+<pre><code>unzip aichemy.zip
 cd Aichemy-main
+</code></pre>
 
-2️⃣ Install dependency backend
-composer install
+<h4>2️⃣ Install dependency backend</h4>
+<pre><code>composer install</code></pre>
 
-3️⃣ Install dependency frontend
-npm install
+<h4>3️⃣ Install dependency frontend</h4>
+<pre><code>npm install</code></pre>
 
-4️⃣ Buat file .env
-cp .env.example .env
+<h4>4️⃣ Buat file .env</h4>
+<pre><code>cp .env.example .env</code></pre>
 
-
-Isi konfigurasi penting:
-
+Isi konfigurasi utama:
+<pre><code>
 APP_NAME=Alchemy
 APP_ENV=local
 APP_URL=http://localhost:8000
@@ -71,165 +74,120 @@ DB_PASSWORD=
 
 FLOWISE_API=http://localhost:3000/api/v1
 FLOWISE_KEY=your_flowise_key_here
+</code></pre>
 
-5️⃣ Generate application key
-php artisan key:generate
+<h4>5️⃣ Generate key</h4>
+<pre><code>php artisan key:generate</code></pre>
 
-6️⃣ Buat database
+<h4>6️⃣ Migrasikan database</h4>
+<pre><code>php artisan migrate
+php artisan db:seed (jika ada)
+</code></pre>
 
-Buat database baru:
+<hr>
 
-aichemy
+<h2>🔗 3. Tautan Model Machine Learning</h2>
 
+<p>Proyek ini tidak menyertakan model ML lokal, tetapi menggunakan Flowise.</p>
 
-Pastikan .env sesuai.
+<h3>📌 Flowise Model</h3>
+<ul>
+  <li>Endpoint model: <code>https://&lt;flowise-server&gt;/api/v1/prediction</code></li>
+  <li>Dokumentasi: <a href="https://docs.flowiseai.com">https://docs.flowiseai.com</a></li>
+</ul>
 
-7️⃣ Migrasikan database
-php artisan migrate
+<h3>📌 (Opsional) Model Lokal</h3>
+<p>Jika ingin menambahkan model ML sendiri:</p>
+<pre><code>/public/models/model.json</code></pre>
 
+Cara load (TensorFlow.js):
+<pre><code>const model = await tf.loadLayersModel('/models/model.json');</code></pre>
 
-Jika memiliki seeder:
+<hr>
 
-php artisan db:seed
+<h2>▶️ 4. Cara Menjalankan Aplikasi</h2>
 
-🔗 3. Tautan Model Machine Learning (Jika Ada)
+<h3>A. Menjalankan backend Laravel</h3>
+<pre><code>php artisan serve</code></pre>
 
-Proyek ini menggunakan AI dari Flowise sehingga tidak menyertakan model lokal.
+<h3>B. Menjalankan frontend (dev)</h3>
+<pre><code>npm run dev</code></pre>
 
-📌 Model via Flowise
+<h3>C. Build untuk production</h3>
+<pre><code>npm run build</code></pre>
 
-Endpoint model:
+<h3>D. Menjalankan queue (jika diperlukan)</h3>
+<pre><code>php artisan queue:work</code></pre>
 
-https://<flowise-server>/api/v1/prediction
+<hr>
 
+<h2>📖 5. Petunjuk Penggunaan</h2>
 
-Dokumentasi Flowise:
-https://docs.flowiseai.com
+<h3>🔐 Autentikasi</h3>
+<ul>
+  <li><code>/login</code></li>
+  <li><code>/register</code></li>
+</ul>
 
-📌 (Opsional) Model Lokal
-
-Model dapat ditempatkan di:
-
-/public/models/
-
-
-Cara load model (contoh TensorFlow.js):
-
-const model = await tf.loadLayersModel('/models/model.json');
-
-
-Jika Anda ingin membuat model sendiri, tambahkan link download model di sini.
-
-▶️ 4. Cara Menjalankan Aplikasi
-A. Jalankan backend Laravel
-php artisan serve
-
-
-Aplikasi akan berjalan di:
-
-http://localhost:8000
-
-B. Jalankan frontend (development mode)
-npm run dev
-
-C. Build frontend untuk production
-npm run build
-
-D. Jalankan queue (jika menggunakan job AI)
-php artisan queue:work
-
-📖 5. Petunjuk Penggunaan
-A. Autentikasi
-
+<h3>🤖 Chatbot</h3>
 Akses:
+<pre><code>/chatbot</code></pre>
 
-/login
-
-/register
-
-User harus login untuk menggunakan fitur AI.
-
-B. Chatbot
-
+<h3>🧪 Tanya AI (Scientific Mode)</h3>
 Akses:
+<pre><code>/tanya-ai</code></pre>
 
-/chatbot
+Endpoint backend:
+<pre><code>POST /querysains/ask</code></pre>
 
+<h3>📜 Riwayat Pertanyaan (History)</h3>
+Jika diaktifkan:
+<pre><code>POST /history/store</code></pre>
 
-Fitur:
+<hr>
 
-Chat langsung dengan AI
+<h2>🧩 6. Informasi Penting</h2>
 
-Jawaban cepat dan konteks umum
+<h3>✔ Keamanan</h3>
+<ul>
+  <li>Jangan commit file <code>.env</code></li>
+  <li>Jangan unggah API key ke repository publik</li>
+</ul>
 
-C. Tanya AI (Scientific Mode)
-
-Akses:
-
-/tanya-ai
-
-
-Backend endpoint:
-
-POST /querysains/ask
-
-
-Fitur:
-
-Jawaban ilmiah dan detail
-
-Menggunakan model dari Flowise / LLM lain
-
-D. Riwayat Pertanyaan (History)
-
-Jika fitur diaktifkan:
-
-Tabel: ai_histories
-
-Endpoint simpan:
-
-POST /history/store
-
-
-User dapat melihat riwayat interaksi dengan AI.
-
-🧩 6. Informasi Penting Lainnya
-✔ Keamanan
-
-Jangan commit file .env
-
-Jangan unggah API key ke repo publik
-
-✔ Permission Folder
-
-Folder berikut harus writable:
-
+<h3>✔ Permission Folder</h3>
+<pre><code>
 storage/
 bootstrap/cache/
+</code></pre>
 
-✔ Optimasi Mode Production
-php artisan config:cache
+<h3>✔ Optimasi Production</h3>
+<pre><code>php artisan config:cache
 php artisan route:cache
 php artisan optimize
 npm run build
+</code></pre>
 
-✔ Deployment
+<h3>✔ Deployment</h3>
+Cocok untuk:
+<ul>
+  <li>VPS (Ubuntu + Nginx)</li>
+  <li>Railway</li>
+  <li>Render</li>
+  <li>cPanel / DirectAdmin</li>
+  <li>Hosting laravel modern</li>
+</ul>
 
-Dapat dideploy di:
+<p><strong>Live Website:</strong> <a href="https://aichemy.my.id">https://aichemy.my.id</a></p>
 
-VPS (Ubuntu + Nginx)
+<hr>
 
-Railway
+<h2>📄 7. Lisensi</h2>
 
-Render
+<p>Proyek ini menggunakan <strong>MIT License</strong>.</p>
 
-cPanel / DirectAdmin
+<hr>
 
-Cloud hosting Laravel
-
-Website live:
-https://aichemy.my.id/
-
-📄 7. Lisensi
-
-Proyek ini menggunakan MIT License.
+<p align="center">
+  README ini dibuat otomatis oleh AI untuk dokumentasi profesional ✨<br>
+  Jika ingin tambahan seperti screenshot, badge GitHub, atau API docs — tinggal bilang!
+</p>
