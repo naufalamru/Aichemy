@@ -1,3 +1,8 @@
+<p align="center">
+  <a href="https://aichemy.my.id/" target="_blank">
+    <img src="public/images/logo2.png" width="400" alt="Aichemy Logo">
+  </a>
+</p>
 <h1 align="center">Dokumentasi Proyek — Aichemy (Agentic AI Skincare Assistant)</h1>
 
 <p align="center">
@@ -164,4 +169,10 @@ FLOWISE_KEY=xxxxx
 <p style="text-align:center;">
   Dokumentasi ini dibuat berdasarkan struktur proyek yang Anda kirim. 
   Jika mau saya tambahkan diagram arsitektur gambar (SVG/PNG), contoh konfigurasi Flowise pipeline, atau dokumentasi endpoint API (OpenAPI/Swagger) — beri tahu, saya buatkan.
+</p>
+
+<hr>
+
+<p align="center">
+  © 2025 Alchemy. All rights reserved.
 </p>
