@@ -61,65 +61,141 @@
 
 <hr>
 
-<h2>3. Model AI Yang Digunakan</h2>
+<h2>3. Arsitektur Model AI yang Digunakan</h2>
 
 <p>
-  <strong>Catatan:</strong> Pada implementasi Aichemy yang dikirimkan, inference <em>tidak</em> dijalankan secara lokal — seluruh pemanggilan model berlangsung melalui Flowise. Flowise adalah orchestrator yang dapat memanggil banyak LLM provider.
+  <strong>Catatan Penting:</strong> Pada proyek <em>AI Skincare Discovery Agent</em>, seluruh inference dan orkestrasi model
+  <strong>tidak dijalankan secara lokal</strong>. Semua proses dilakukan melalui
+  <strong>Flowise</strong> sebagai <em>agent orchestration framework</em> yang
+  mengoordinasikan berbagai Large Language Model (LLM), tools, dan knowledge base.
 </p>
 
-<h3>3.1 Jenis Model yang Umum Dipakai di Flowise</h3>
+<p>
+  Sistem ini mengombinasikan dua pendekatan utama:
+</p>
 <ul>
-  <li><strong>OpenAI (GPT-4 / GPT-4o / GPT-3.5)</strong> — kualitas terbaik, cocok untuk jawaban ilmiah & berdasar konteks.</li>
-  <li><strong>OpenRouter / Open Source Models</strong> — Qwen, Mixtral, Llama 2/3 (via penyedia pihak ketiga).</li>
-  <li><strong>Hugging Face Inference API</strong> — untuk model-model komunitas yang mendukung text-generation.</li>
+  <li><strong>Retrieval-Augmented Generation (RAG)</strong> untuk grounding berbasis data INCI</li>
+  <li><strong>Agentic Deep Research Workflow</strong> dengan planner dan subagent iteratif</li>
 </ul>
-
-<h3>3.2 Rekomendasi Konfigurasi Model untuk Mode "Scientific"</h3>
-<ul>
-  <li><strong>Temperature</strong>: 0.0 – 0.3 (membatasi kebebasan kreatif, kurangi halusinasi).</li>
-  <li><strong>Top-p</strong>: 0.8 atau lebih rendah bila butuh determinisme.</li>
-  <li><strong>Max tokens</strong>: Sesuaikan (mis. 512–1024) untuk respons lengkap tanpa terlalu panjang.</li>
-  <li><strong>System prompt / Instruction</strong>: Berikan prompt yang jelas untuk sumber-sumber ilmiah, konteks, dan gaya bahasa.</li>
-</ul>
-
-<h3>3.3 Contoh Endpoint Flowise (ENV)</h3>
-<pre><code>
-FLOWISE_API=https://your-flowise.example/api/v1
-FLOWISE_KEY=xxxxx
-</code></pre>
 
 <hr>
 
-<h2>4. Dataset</h2>
+<h3>3.1 Model AI yang Digunakan</h3>
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <tr>
+    <th>Komponen</th>
+    <th>Model</th>
+    <th>Temperature</th>
+    <th>Peran</th>
+  </tr>
+  <tr>
+    <td>RAG Agent</td>
+    <td>GPT-4o-mini</td>
+    <td>0.4</td>
+    <td>Retrieval fakta berbasis dataset INCI dan properti kimia</td>
+  </tr>
+  <tr>
+    <td>Planner Agent</td>
+    <td>GPT-4.1</td>
+    <td>0.5</td>
+    <td>Memecah query pengguna menjadi task riset terstruktur</td>
+  </tr>
+  <tr>
+    <td>Iteration Subagent</td>
+    <td>GPT-4o</td>
+    <td>0.4</td>
+    <td>Analisis kimia, kompatibilitas bahan, dan re-formulasi konseptual</td>
+  </tr>
+  <tr>
+    <td>Writer / Validator Agent</td>
+    <td>GPT-4o-mini</td>
+    <td>0.5</td>
+    <td>Validasi ilmiah dan justifikasi sebagai ahli kimia skincare</td>
+  </tr>
+</table>
 
 <p>
-  Versi default Aichemy tidak menyertakan dataset ML lokal. Namun jika kamu menambahkan knowledge base di Flowise, berikut praktik yang umum:
+  Penggunaan temperatur relatif rendah bertujuan untuk
+  <strong>menekan halusinasi</strong> dan menjaga konsistensi ilmiah dalam konteks kimia kosmetik.
 </p>
 
-<h3>4.1 Jenis Data yang Direkomendasikan</h3>
+<hr>
+
+<h3>3.2 Tools yang Digunakan oleh Subagent</h3>
+
+<p>
+  Untuk mendukung mode <em>deep research</em>, Iteration Subagent memiliki akses ke beberapa tools eksternal:
+</p>
+
 <ul>
-  <li>Artikel dermatologi (journal review, guideline).</li>
-  <li>Dokumen bahan aktif (INCI, mekanisme kerja, safety data).</li>
-  <li>Sumber regulasi (FDA, EMA, BPOM regional bila relevan).</li>
-  <li>Manual bahan produk (safety, konsentrasi rekomendasi).</li>
+  <li><strong>Tavily API</strong> – pencarian literatur dan referensi ilmiah</li>
+  <li><strong>Web Scraper</strong> – ekstraksi informasi dari sumber tepercaya</li>
+  <li><strong>arXiv</strong> – referensi paper ilmiah terkait kimia dan dermatologi</li>
+  <li><strong>Custom RDKit Tool</strong> – analisis struktur molekul dan SMILES (konseptual)</li>
 </ul>
 
-<h3>4.2 Format Penyimpanan di Flowise</h3>
+<p>
+  Semua hasil tool digunakan sebagai <em>supporting evidence</em>,
+  bukan sebagai dasar tunggal pengambilan keputusan.
+</p>
+
+<hr>
+
+<h2>4. Dataset & Knowledge Base</h2>
+
+<h3>4.1 Document Store Utama</h3>
+
+<p>
+  Sistem menggunakan satu sumber kebenaran utama berupa dataset:
+</p>
+
+<p>
+  <strong>INCI Skincare Ingredients + Properti Kimia</strong>
+</p>
+
+<p>
+  Dataset ini disimpan sebagai <em>document store</em> dan diindeks dalam
+  <strong>Vector Database (Pinecone)</strong> untuk keperluan retrieval.
+</p>
+
+<h3>4.2 Isi Dataset</h3>
+
 <ul>
-  <li>PDF / TXT / HTML — di-parsing & di-chunk.</li>
-  <li>Embedding vector store (Chroma, Pinecone, Weaviate, atau milik Flowise).</li>
-  <li>Sumber metadata: title, sumber, tanggal, confidence score.</li>
+  <li>Nama bahan (INCI name)</li>
+  <li>Fungsi kosmetik (brightening, anti-acne, soothing, dll)</li>
+  <li>Properti kimia (logP, pKa, kelarutan, stabilitas)</li>
+  <li>Ionization state pada pH 7.4</li>
+  <li>Functional groups (ringkas dan detail)</li>
+  <li>Jumlah cincin aromatik dan kompleksitas struktur</li>
+  <li>Tautomerism indicators</li>
+  <li>SMILES (jika tersedia)</li>
 </ul>
 
-<h3>4.3 Contoh Proses Persiapan Dataset</h3>
+<p>
+  Dataset ini berfungsi sebagai <strong>ground truth</strong> untuk seluruh agent
+  dan menjadi mekanisme utama untuk mengurangi halusinasi model.
+</p>
+
+<hr>
+
+<h3>4.3 Pipeline Persiapan Dataset</h3>
+
 <ol>
-  <li>Kumpulkan dokumen (PDF / HTML / CSV).</li>
-  <li>Preprocess: hapus noise, normalisasi teks.</li>
-  <li>Chunking & embedding (menggunakan embedding model seperti text-embedding-3-small).</li>
-  <li>Masukkan ke vector DB dan sambungkan ke Flowise untuk retrieval.</li>
+  <li>Kompilasi data INCI dan properti kimia dalam format CSV</li>
+  <li>Pembersihan dan normalisasi data</li>
+  <li>Embedding teks menggunakan model embedding</li>
+  <li>Penyimpanan embedding ke Pinecone</li>
+  <li>Integrasi Pinecone ke Flowise sebagai document store</li>
 </ol>
 
+<p>
+  Seluruh agent hanya diperbolehkan menarik informasi dari dataset ini atau
+  dari sumber ilmiah yang tervalidasi melalui tools.
+</p>
+
 <hr>
+
 
 <h2>5. Limitasi Sistem</h2>
 
