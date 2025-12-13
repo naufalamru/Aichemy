@@ -61,140 +61,287 @@
 
 <hr>
 
-<h2>3. Arsitektur Model AI yang Digunakan</h2>
+<h2>3. Arsitektur Agentic AI</h2>
 
 <p>
-  <strong>Catatan Penting:</strong> Pada proyek <em>AI Skincare Discovery Agent</em>, seluruh inference dan orkestrasi model
-  <strong>tidak dijalankan secara lokal</strong>. Semua proses dilakukan melalui
-  <strong>Flowise</strong> sebagai <em>agent orchestration framework</em> yang
-  mengoordinasikan berbagai Large Language Model (LLM), tools, dan knowledge base.
+  Bab ini menjelaskan arsitektur dan desain <strong>Agentic AI</strong> yang digunakan
+  dalam proyek <em>AI Skincare Discovery Agent</em>. Sistem dibangun menggunakan
+  <strong>Flowise</strong> sebagai <em>agent orchestration framework</em> dan
+  mengombinasikan dua workflow utama:
 </p>
 
-<p>
-  Sistem ini mengombinasikan dua pendekatan utama:
-</p>
 <ul>
-  <li><strong>Retrieval-Augmented Generation (RAG)</strong> untuk grounding berbasis data INCI</li>
-  <li><strong>Agentic Deep Research Workflow</strong> dengan planner dan subagent iteratif</li>
+  <li><strong>Retrieval-Augmented Generation (RAG)</strong> sebagai lapisan grounding berbasis fakta</li>
+  <li><strong>Deep Research with Subagents</strong> sebagai mesin reasoning dan eksplorasi solusi</li>
 </ul>
+
+<p>
+  Seluruh inference model <strong>tidak dijalankan secara lokal</strong>.
+  Flowise bertugas mengoordinasikan LLM, tools eksternal, dan knowledge base
+  dalam satu alur agentic yang terkontrol.
+</p>
 
 <hr>
 
-<h3>3.1 Model AI yang Digunakan</h3>
+<h3>3.1 Workflow RAG (Retrieval-Augmented Generation)</h3>
+
+<img width="1142" height="464" alt="image" src="https://github.com/user-attachments/assets/0b4e977d-46c9-4801-9a5a-6585b4c04ed6" />
+
+
+<h4>Tujuan dan Peran</h4>
+<p>
+  Workflow RAG berfungsi sebagai <strong>knowledge grounding layer</strong>.
+  Workflow ini memastikan bahwa seluruh jawaban dasar sistem
+  <strong>berasal dari dataset INCI yang tervalidasi</strong>, bukan dari asumsi model.
+</p>
+
+<p>
+  RAG digunakan untuk menjawab pertanyaan faktual seperti:
+</p>
+<ul>
+  <li>Fungsi kosmetik suatu bahan</li>
+  <li>Properti kimia dasar (logP, pKa, ionisasi)</li>
+  <li>Kesesuaian umum terhadap tujuan skincare tertentu</li>
+</ul>
+
+<p>
+  RAG <strong>tidak melakukan reasoning kompleks</strong> dan
+  <strong>tidak menghasilkan reformulasi baru</strong>.
+</p>
+
+<h4>Konfigurasi Teknis</h4>
 
 <table border="1" cellpadding="8" cellspacing="0">
   <tr>
     <th>Komponen</th>
-    <th>Model</th>
-    <th>Temperature</th>
-    <th>Peran</th>
+    <th>Detail</th>
   </tr>
   <tr>
-    <td>RAG Agent</td>
+    <td>Model</td>
     <td>GPT-4o-mini</td>
-    <td>0.4</td>
-    <td>Retrieval fakta berbasis dataset INCI dan properti kimia</td>
   </tr>
   <tr>
-    <td>Planner Agent</td>
-    <td>GPT-4.1</td>
-    <td>0.5</td>
-    <td>Memecah query pengguna menjadi task riset terstruktur</td>
+    <td>Temperature</td>
+    <td>0.0 – 0.4 (minim halusinasi)</td>
   </tr>
   <tr>
-    <td>Iteration Subagent</td>
-    <td>GPT-4o</td>
-    <td>0.4</td>
-    <td>Analisis kimia, kompatibilitas bahan, dan re-formulasi konseptual</td>
+    <td>Embedding Model</td>
+    <td>text-embedding-3-small</td>
   </tr>
   <tr>
-    <td>Writer / Validator Agent</td>
-    <td>GPT-4o-mini</td>
-    <td>0.5</td>
-    <td>Validasi ilmiah dan justifikasi sebagai ahli kimia skincare</td>
+    <td>Vector Database</td>
+    <td>Pinecone</td>
+  </tr>
+  <tr>
+    <td>Knowledge Source</td>
+    <td>Dataset INCI Skincare + Properti Kimia</td>
   </tr>
 </table>
 
+<h4>Alur Kerja RAG</h4>
+<ol>
+  <li>User mengirimkan query</li>
+  <li>Flowise melakukan similarity search ke Pinecone</li>
+  <li>Chunk dokumen relevan dikirim ke LLM</li>
+  <li>LLM menyusun jawaban <strong>hanya berdasarkan konteks retrieved</strong></li>
+</ol>
+
+<h4>Output Workflow RAG</h4>
+<ul>
+  <li>Jawaban faktual</li>
+  <li>Ringkasan properti bahan</li>
+  <li>Tanpa spekulasi atau desain molekul baru</li>
+</ul>
+
+
+
+<hr>
+
+<h3>3.2 Workflow Deep Research with Subagents</h3>
+
+<img width="2248" height="972" alt="image" src="https://github.com/user-attachments/assets/d7aaa947-f305-43a9-9e3a-fd3d3d4f504f" />
+
+
+<h4>Tujuan dan Filosofi</h4>
 <p>
-  Penggunaan temperatur relatif rendah bertujuan untuk
-  <strong>menekan halusinasi</strong> dan menjaga konsistensi ilmiah dalam konteks kimia kosmetik.
+  Workflow <strong>Deep Research</strong> merupakan inti dari sistem agentic AI.
+  Workflow ini digunakan ketika permasalahan membutuhkan:
+</p>
+
+<ul>
+  <li>Reasoning bertahap</li>
+  <li>Analisis lintas sumber</li>
+  <li>Evaluasi kompatibilitas dan reformulasi konseptual bahan skincare</li>
+</ul>
+
+<p>
+  Berbeda dengan RAG, workflow ini <strong>bersifat iteratif</strong>,
+  menggunakan <em>planner</em> dan beberapa <em>subagent</em>
+  yang bekerja secara terkoordinasi.
 </p>
 
 <hr>
 
-<h3>3.2 Tools yang Digunakan oleh Subagent</h3>
+<h4>3.2.1 Planner Agent</h4>
 
 <p>
-  Untuk mendukung mode <em>deep research</em>, Iteration Subagent memiliki akses ke beberapa tools eksternal:
+  Planner Agent bertanggung jawab untuk <strong>memahami intent pengguna</strong>
+  dan <strong>memecah masalah menjadi task riset terstruktur</strong>.
 </p>
 
+<table border="1" cellpadding="8" cellspacing="0">
+  <tr>
+    <th>Aspek</th>
+    <th>Detail</th>
+  </tr>
+  <tr>
+    <td>Model</td>
+    <td>GPT-4.1</td>
+  </tr>
+  <tr>
+    <td>Temperature</td>
+    <td>0.5</td>
+  </tr>
+  <tr>
+    <td>Tools</td>
+    <td>Tidak menggunakan tools eksternal</td>
+  </tr>
+</table>
+
+<p>
+  Output Planner berupa daftar task seperti:
+</p>
 <ul>
-  <li><strong>Tavily API</strong> – pencarian literatur dan referensi ilmiah</li>
-  <li><strong>Web Scraper</strong> – ekstraksi informasi dari sumber tepercaya</li>
-  <li><strong>arXiv</strong> – referensi paper ilmiah terkait kimia dan dermatologi</li>
-  <li><strong>Custom RDKit Tool</strong> – analisis struktur molekul dan SMILES (konseptual)</li>
+  <li>Pencarian kandidat bahan aktif</li>
+  <li>Analisis kompatibilitas kimia</li>
+  <li>Evaluasi potensi risiko formulasi</li>
 </ul>
 
+<hr>
+
+<h4>3.2.2 Iteration Subagents</h4>
+
 <p>
-  Semua hasil tool digunakan sebagai <em>supporting evidence</em>,
-  bukan sebagai dasar tunggal pengambilan keputusan.
+  Iteration Subagent mengeksekusi task dari Planner dan
+  dapat melakukan iterasi hingga hasil dianggap memadai.
 </p>
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <tr>
+    <th>Aspek</th>
+    <th>Detail</th>
+  </tr>
+  <tr>
+    <td>Model</td>
+    <td>GPT-4o</td>
+  </tr>
+  <tr>
+    <td>Temperature</td>
+    <td>0.4</td>
+  </tr>
+  <tr>
+    <td>Tools</td>
+    <td>Tavily API, Web Scraper, arXiv, Custom RDKit (konseptual)</td>
+  </tr>
+  <tr>
+    <td>Knowledge Base</td>
+    <td>Dataset INCI sebagai ground truth</td>
+  </tr>
+</table>
+
+<p>
+  Subagent melakukan:
+</p>
+<ul>
+  <li>Analisis gugus fungsi</li>
+  <li>Deteksi konflik kimia</li>
+  <li>Evaluasi kelayakan reformulasi konseptual</li>
+</ul>
+
+<hr>
+
+<h4>3.2.3 Writer / Validator Agent</h4>
+
+<p>
+  Writer / Validator Agent berperan sebagai <strong>gatekeeper ilmiah</strong>
+  yang menggabungkan seluruh hasil subagent dan melakukan validasi akhir.
+</p>
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <tr>
+    <th>Aspek</th>
+    <th>Detail</th>
+  </tr>
+  <tr>
+    <td>Model</td>
+    <td>GPT-4o-mini</td>
+  </tr>
+  <tr>
+    <td>Temperature</td>
+    <td>0.5</td>
+  </tr>
+</table>
+
+<p>
+  Agent ini memastikan bahwa rekomendasi:
+</p>
+<ul>
+  <li>Konsisten secara kimia</li>
+  <li>Aman secara konseptual</li>
+  <li>Diberi justifikasi ilmiah yang jelas</li>
+</ul>
+
 
 <hr>
 
 <h2>4. Dataset & Knowledge Base</h2>
 
-<h3>4.1 Document Store Utama</h3>
+<h3>4.1 Dataset Utama</h3>
 
 <p>
-  Sistem menggunakan satu sumber kebenaran utama berupa dataset:
+  Sistem menggunakan satu dataset utama sebagai
+  <strong>single source of truth</strong>:
 </p>
 
-<p>
-  <strong>INCI Skincare Ingredients + Properti Kimia</strong>
-</p>
+<p><strong>INCI Skincare Ingredients + Properti Kimia</strong></p>
 
 <p>
-  Dataset ini disimpan sebagai <em>document store</em> dan diindeks dalam
-  <strong>Vector Database (Pinecone)</strong> untuk keperluan retrieval.
+  Dataset ini disimpan sebagai document store dan diindeks
+  menggunakan <strong>Pinecone Vector Database</strong>.
 </p>
+
+<hr>
 
 <h3>4.2 Isi Dataset</h3>
 
 <ul>
   <li>Nama bahan (INCI name)</li>
-  <li>Fungsi kosmetik (brightening, anti-acne, soothing, dll)</li>
-  <li>Properti kimia (logP, pKa, kelarutan, stabilitas)</li>
-  <li>Ionization state pada pH 7.4</li>
-  <li>Functional groups (ringkas dan detail)</li>
-  <li>Jumlah cincin aromatik dan kompleksitas struktur</li>
+  <li>Fungsi kosmetik</li>
+  <li>Properti kimia (logP, pKa, solubility, stability)</li>
+  <li>Ionization state (pH 7.4)</li>
+  <li>Functional groups</li>
+  <li>Aromatic ring count & structural complexity</li>
   <li>Tautomerism indicators</li>
   <li>SMILES (jika tersedia)</li>
 </ul>
-
-<p>
-  Dataset ini berfungsi sebagai <strong>ground truth</strong> untuk seluruh agent
-  dan menjadi mekanisme utama untuk mengurangi halusinasi model.
-</p>
 
 <hr>
 
 <h3>4.3 Pipeline Persiapan Dataset</h3>
 
 <ol>
-  <li>Kompilasi data INCI dan properti kimia dalam format CSV</li>
+  <li>Kompilasi data INCI dalam format CSV</li>
   <li>Pembersihan dan normalisasi data</li>
-  <li>Embedding teks menggunakan model embedding</li>
+  <li>Chunking dan embedding teks</li>
   <li>Penyimpanan embedding ke Pinecone</li>
   <li>Integrasi Pinecone ke Flowise sebagai document store</li>
 </ol>
 
 <p>
-  Seluruh agent hanya diperbolehkan menarik informasi dari dataset ini atau
-  dari sumber ilmiah yang tervalidasi melalui tools.
+  Seluruh agent <strong>dibatasi</strong> untuk hanya menggunakan dataset ini
+  atau sumber ilmiah tervalidasi melalui tools,
+  sehingga risiko halusinasi dapat ditekan secara signifikan.
 </p>
-
-<hr>
 
 
 <h2>5. Limitasi Sistem</h2>
