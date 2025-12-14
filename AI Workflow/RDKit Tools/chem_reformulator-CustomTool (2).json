@@ -1,0 +1,9 @@
+{
+  "name": "chem_reformulator",
+  "description": "Reformulate skincare molecules. Parameters: ingredient_name (string), smiles (string)",
+  "color": "linear-gradient(rgb(88,187,115), rgb(189,184,205))",
+  "iconSrc": "",
+  "schema": "[{\"id\":0,\"property\":\"ingredient_name\",\"type\":\"string\",\"description\":\"Name of the skincare ingredient, e.g. Retinol, Vitamin C, Niacinamide\",\"required\":true},{\"id\":1,\"property\":\"smiles\",\"type\":\"string\",\"description\":\"SMILES molecular structure, e.g. CCO, CC(=O)O\",\"required\":true}]",
+  "func": "const fetch = require('node-fetch');\n\nconst url = 'https://peterchen712-skincare-reformulator-api.hf.space/reformulate';\n\nconst response = await fetch(url, {\n  method: 'POST',\n  headers: {\n    'Content-Type': 'application/json'\n  },\n  body: JSON.stringify({\n    ingredient_name: $ingredient_name,\n    smiles: $smiles,\n    use_dataset: false\n  })\n});\n\nconst data = await response.json();\nreturn JSON.stringify(data);",
+  "workspaceId": "0b3c01e2-e612-408e-a375-7f92bd4154ce"
+}
