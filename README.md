@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://aichemy.my.id/" target="_blank">
-    <img src="public/images/logo2.png" width="400" alt="Aichemy Logo">
+    <img src="Aichemy-laravel/public/images/logo2.png" width="400" alt="Aichemy Logo">
   </a>
 </p>
 <h1 align="center">Dokumentasi Proyek — Aichemy (Agentic AI Skincare Assistant)</h1>
